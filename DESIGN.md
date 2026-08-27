@@ -26,13 +26,13 @@ Deux gestes portent l'identité :
    `position: sticky`.
 2. **Le point d'eyebrow.** Chaque libellé de section est précédé d'un petit disque orange
    de 6px. C'est l'élément d'identité à ne jamais retirer.
-3. **Le fond animé « Comet Cascade ».** Des traînées de comètes chaudes tombent depuis le
-   haut-centre puis s'évasent vers l'extérieur près du sol, comme une fontaine sur une
-   vitre. Motion lente, faible opacité, jamais au premier plan (voir §4).
+3. **Le fond animé « Glyph Tide ».** Une nappe de glyphes de terminal (rampe de densité
+   ASCII) qui ondule comme un champ de vagues. Texte pur, canvas pur — clin d'œil à
+   l'univers systèmes/réseau. Faible opacité, jamais au premier plan (voir §4).
 
 Le reste est délibérément sobre : rayons courts (8–16px), pas de dégradés, pas de portraits
 circulaires ni d'arcs décoratifs entre eux (ce motif Mastercard est abandonné dans cette
-variante — le fond « Comet Cascade » est une couche à part, jamais un ornement de premier
+variante — le fond « Glyph Tide » est une couche à part, jamais un ornement de premier
 plan), ombres présentes mais diffuses.
 
 **Caractéristiques clés**
@@ -161,19 +161,19 @@ icône SVG 16×16 en `fill: currentColor`. Combiné à `.btn-secondary` pour le 
 projets. Le libellé traduit va dans un `<span data-i18n>` **à côté** du SVG (jamais de
 `data-i18n` sur un élément qui contient le SVG — `textContent` l'effacerait).
 
-### Fond animé « Comet Cascade » (`#bg-canvas` + `js/background.js`)
-- `<canvas>` en `position: fixed` couvrant le viewport, `z-index: 0`, `pointer-events: none`
+### Fond animé « Glyph Tide » (`#bg-canvas` + `js/background.js`)
+- `<canvas>` en `position: fixed` couvrant le viewport, `z-index: 0`, `pointer-events: none`,
+  transparent (`clearRect` chaque frame — le `--canvas` du body sert de fond)
 - Le contenu passe au-dessus : `main` et `.site-footer` en `position: relative; z-index: 1`,
   la nav en `z-index: 10`
-- Canvas 2D, sans dépendance. Le canvas est **opaque** (rempli de `--canvas`) : chaque
-  frame, un voile `rgba(--canvas, ~4 %)` estompe les positions précédentes → les traînées.
-- ~22 comètes qui naissent près du haut-centre, tombent (gravité), puis s'évasent vers
-  l'extérieur sous `60 %` de la hauteur. Têtes + segments dessinés en `globalCompositeOperation
-  = "lighter"`, dégradé chaud (orange signal → ambre → braise), opacité tête/traînée `~25 %`.
-- `devicePixelRatio` plafonné à 2 ; pause quand l'onglet est masqué ; respecte
-  `prefers-reduced-motion` (canvas rempli de `--canvas`, aucune animation)
-- Tous les réglages sont dans l'objet `CONFIG` en tête de `js/background.js`
-  (`count`, `trailFade`, `colors`, `baseVy`, `gravity`, `floor`, `bank`…)
+- Canvas 2D, sans dépendance. Grille de glyphes monospace (rampe de densité
+  `"  .·:-=+*ox#%@"`, police 14px). Chaque cellule prend un glyphe selon un **champ
+  d'ondes** = somme de sinusoïdes + une onde radiale (la « respiration »).
+- Une seule couleur (`--muted-text`), 3 paliers d'opacité `~3 → 8 %` selon la crête ;
+  ~30 fps ; `devicePixelRatio` plafonné à 2
+- Pause quand l'onglet est masqué ; respecte `prefers-reduced-motion` (nappe figée)
+- Réglages dans l'objet `CONFIG` en tête de `js/background.js` (`ramp`, `font`,
+  `cellScaleX/Y`, `color`, `alphas`, `speed`, `fps`)
 - Reste **un fond** : ne jamais monter l'opacité au point de gêner la lecture. Les surfaces
   `--lifted` / `--deep` (cartes, footer) le masquent localement, c'est voulu.
 
@@ -349,7 +349,7 @@ généraliser aux cartes : il perdrait sa valeur de signal et coûte cher en ren
 - Trois tons de surface : `deep` → `canvas` → `lifted`
 - Focus clavier visible : `:focus-visible` → liseré `--signal` 2px, `outline-offset: 2px`
 - Respecter `prefers-reduced-motion` (coupe `scroll-behavior`, les transitions et l'animation du fond)
-- Garder le fond « Comet Cascade » sous le contenu (`z-index`) et à faible opacité
+- Garder le fond « Glyph Tide » sous le contenu (`z-index`) et à faible opacité
 
 ### À éviter
 - Pas de noir pur `#000` ni de blanc pur `#fff` en aplat large
