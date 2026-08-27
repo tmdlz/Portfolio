@@ -16,12 +16,6 @@ const I18N = {
     "cta.contact": "Me contacter",
     "cta.projets": "Voir les projets",
 
-    "hero.eyebrow": "Technicien Systèmes & Réseaux",
-    "hero.text":
-      "Infrastructure, systèmes et réseau — Active Directory, Linux, virtualisation " +
-      "Proxmox, VLAN et pare-feu. Diplômé BTS SIO (SISR), certifié Azure Fundamentals " +
-      "(AZ-900). Basé à Paris.",
-
     "profil.eyebrow": "Profil",
     "profil.title": "À propos",
     "profil.lead":
@@ -65,6 +59,7 @@ const I18N = {
 
     "proj.eyebrow": "Projets",
     "proj.title": "Projets techniques",
+    "proj.github": "Voir sur GitHub",
     "proj.conseilpro.name": "ConseilPro — infrastructure système multi-environnements",
     "proj.conseilpro.period": "Projet personnel · 2025–2026 · homelab",
     "proj.conseilpro.desc":
@@ -95,12 +90,6 @@ const I18N = {
     "nav.projets": "Projects",
     "cta.contact": "Get in touch",
     "cta.projets": "View projects",
-
-    "hero.eyebrow": "Systems & Network Technician",
-    "hero.text":
-      "Infrastructure, systems and networking — Active Directory, Linux, Proxmox " +
-      "virtualization, VLANs and firewalls. BTS SIO (SISR) graduate, Azure Fundamentals " +
-      "(AZ-900) certified. Based in Paris.",
 
     "profil.eyebrow": "About",
     "profil.title": "About",
@@ -144,6 +133,7 @@ const I18N = {
 
     "proj.eyebrow": "Projects",
     "proj.title": "Technical projects",
+    "proj.github": "View on GitHub",
     "proj.conseilpro.name": "ConseilPro — multi-environment systems infrastructure",
     "proj.conseilpro.period": "Personal project · 2025–2026 · homelab",
     "proj.conseilpro.desc":

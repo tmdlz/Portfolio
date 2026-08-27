@@ -236,17 +236,11 @@ main {
   margin-bottom: 22px;
 }
 
-.hero-text {
-  font-size: 18px;
-  color: var(--muted-text);
-  max-width: 600px;
-  margin-bottom: 30px;
-}
-
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  margin-top: 28px;
 }
 
 .hero-photo {
@@ -279,21 +273,41 @@ main {
   color: var(--muted-text);
 }
 
-/* ---- Compétences (grille de groupes de tags) ---- */
+/* ---- Compétences : cartes de groupes de tags ---- */
 .skills {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
   margin-top: 40px;
 }
 
+.skill-group {
+  padding: 22px 22px 24px;
+  background: var(--lifted);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-card);
+}
+
 .skill-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted-text);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+/* Point orange signature, comme sur les eyebrow */
+.skill-head::before {
+  content: "";
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--signal);
 }
 
 /* ---- Tags (puces techniques) ---- */
@@ -316,6 +330,14 @@ main {
 
 .skill-group .tags {
   margin-top: 0;
+  gap: 7px;
+}
+
+/* Chips « encastrées » : plus sombres que la carte qui les porte */
+.skill-group .tags li {
+  padding: 6px 11px;
+  background: var(--canvas);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 /* ---- Entrées d'expérience ---- */
@@ -395,6 +417,22 @@ main {
 
 .project .entry-list {
   margin-top: 16px;
+}
+
+.project-actions {
+  margin-top: 24px;
+}
+
+/* Bouton avec icône (ex. lien GitHub) */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 /* ---- Footer ---- */

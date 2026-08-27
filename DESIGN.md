@@ -150,6 +150,11 @@ les trois tons de surface.
 
 **CTA de nav** (`.nav-cta`) : bouton primaire compacté — padding `8px 18px`, 14px.
 
+**Bouton à icône** (`.btn-icon`) : `display: inline-flex`, `align-items: center`, `gap: 8px`,
+icône SVG 16×16 en `fill: currentColor`. Combiné à `.btn-secondary` pour le lien GitHub des
+projets. Le libellé traduit va dans un `<span data-i18n>` **à côté** du SVG (jamais de
+`data-i18n` sur un élément qui contient le SVG — `textContent` l'effacerait).
+
 ### Navigation « glass » (`.nav-pill`)
 - `position: sticky` ; `top: 16px` ; `z-index: 10`
 - `display: flex` ; `align-items: center` ; `gap: 20px`
@@ -184,10 +189,10 @@ les trois tons de surface.
 ### Hero (`.hero`)
 - `padding: 100px 0 72px` (72px 0 48px sous 768px)
 - **Grille 2 colonnes** `1.5fr / 1fr`, `gap: 56px`, `align-items: center`
-- Colonne gauche `.hero-content` (`max-width: 620px`) : eyebrow → `<h1>` → `.hero-text`
-  (18px, `--muted-text`, `max-width: 600px`) → `.hero-actions` (flex, `gap: 12px`, `wrap`)
+- Colonne gauche `.hero-content` : **le nom seul** (`<h1>`) puis `.hero-actions`
+  (flex, `gap: 12px`, `wrap`, `margin-top: 28px`) — pas d'eyebrow, pas de paragraphe
 - Colonne droite `.hero-photo` : voir « Photo de profil » ci-dessous
-- Sous 768px : une seule colonne, photo au-dessus du texte (`order: -1`), alignées à gauche
+- Sous 768px : une seule colonne, photo au-dessus du nom (`order: -1`), alignées à gauche
 
 ### Photo de profil (`.hero-photo`)
 - `assets/profile-picture.png` — portrait, cadrage serré tête/épaules
@@ -211,15 +216,20 @@ les trois tons de surface.
 - `.footer-bottom` : au-dessus, séparateur `1px solid var(--hairline)` ; 13px, `--muted-text`
 
 ### Compétences (`.skills` / `.skill-group`)
-- `.skills` : grille `repeat(auto-fit, minmax(220px, 1fr))`, `gap: 28px`, `margin-top: 40px`
-- `.skill-head` : 12px / 700 / capitales / `+0.08em` / `--muted-text` (même style que l'en-tête de footer)
-- Chaque groupe contient une liste `.tags`
+- `.skills` : grille `repeat(auto-fit, minmax(240px, 1fr))`, `gap: 20px`, `margin-top: 40px`
+- Chaque `.skill-group` est une **carte** : fond `--lifted`, bordure `--hairline`,
+  rayon `--r-card` (14px), `padding: 22px 22px 24px`
+- `.skill-head` : 12px / 700 / capitales / `+0.08em` / `--muted-text`, précédé d'un
+  **point orange** `--signal` de 6px (`::before`, comme les eyebrow)
+- Contient une liste `.tags` en variante « encastrée » (voir ci-dessous)
 
 ### Tags (`.tags`)
 - Puces techniques (technos, mots-clés) — jamais de phrase
 - `<ul>` en `flex` `wrap`, `gap: 8px`
 - `<li>` : 12px / 500, `--muted-text`, `padding: 5px 10px`, bordure `--hairline`, rayon `--r-btn` (8px)
 - Fond transparent (pas de remplissage) — c'est une étiquette discrète, pas un bouton
+- **Variante encastrée** (dans une carte `--lifted`) : fond `--canvas` + bordure
+  `rgba(255,255,255,0.12)` → la puce paraît enfoncée dans la carte
 - Non traduits (noms propres / technos) sauf cas contenant une phrase (ex. « Formation »)
 
 ### Entrée d'expérience (`.entry`)
@@ -238,7 +248,8 @@ les trois tons de surface.
 - Fond `--lifted`, bordure `--hairline`, rayon `--r-card` (14px), `box-shadow: var(--shadow-card)`
 - `padding: 32px` (24px sous 768px)
 - Contenu : `<h3>` (19px) + `.entry-period` + `.project-desc` (`--muted-text`, `max-width: 640px`)
-  + `.entry-list` + `.tags`
+  + `.entry-list` + `.tags` + `.project-actions` (`margin-top: 24px`) contenant le lien GitHub
+  en `.btn.btn-secondary.btn-icon`
 
 ---
 
@@ -335,6 +346,8 @@ mobile).
   semi-opaque (acceptable) ; le menu déroulant est déjà quasi-opaque.
 - Agrandir la zone tactile du sélecteur de langue sous 768px (~32px actuellement).
 - CV PDF téléchargeable dans `assets/` + lien dans le hero et le footer.
+- Renseigner l'URL exacte du dépôt ConseilPro sur le bouton GitHub de la carte projet
+  (placeholder actuel : `github.com/tmdlz`).
 
 ---
 
