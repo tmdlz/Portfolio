@@ -72,8 +72,10 @@ plan), ombres présentes mais diffuses.
 | Nom | Valeur | Variable | Rôle |
 |-----|--------|----------|------|
 | Hairline | `rgba(255,255,255,0.09)` | `--hairline` | Bordure haute des `.section`, séparateur de footer |
-| Glass — fond | `rgba(24,22,18,0.55)` | `--glass-bg` | Fond de la navigation translucide |
-| Glass — bordure | `rgba(255,255,255,0.10)` | `--glass-border` | Contour de la navigation |
+| Glass — nav | `rgba(24,22,18,0.55)` | `--glass-bg` | Fond de la barre de navigation |
+| Glass — panneau | `rgba(28,26,21,0.5)` | `--glass-panel` | Boutons secondaires + cartes d'expérience translucides |
+| Glass — flou | `blur(12px) saturate(150%)` | `--glass-blur` | `backdrop-filter` partagé |
+| Glass — bordure | `rgba(255,255,255,0.10)` | `--glass-border` | Contour des surfaces « verre » |
 | Bordures de boutons | `rgba(255,255,255,0.18 → 0.45)` | — | Contour du bouton secondaire et du sélecteur de langue (0.18 au repos, ~0.45 au hover) |
 
 ### Pas de dégradés
@@ -146,10 +148,11 @@ les trois tons de surface.
 - Usage : action principale (« Me contacter »)
 
 **Secondaire** (`.btn-secondary`)
-- Fond : `transparent` · Texte : `--text`
-- Bordure : `1px solid rgba(255,255,255,0.22)` · Poids : 450
-- Hover : bordure `rgba(255,255,255,0.45)` · Actif : `scale(0.98)`
-- Usage : action de second rang à côté d'un primaire (« Voir les projets »)
+- **Verre** : fond `--glass-panel`, `backdrop-filter: var(--glass-blur)` → le fond animé
+  se floute derrière le bouton
+- Texte : `--text` · Bordure : `1px solid rgba(255,255,255,0.16)` · Poids : 450
+- Hover : fond `rgba(40,37,31,0.62)`, bordure `rgba(255,255,255,0.42)` · Actif : `scale(0.98)`
+- Usage : « Voir les projets », « Télécharger le CV », « Voir sur GitHub »
 
 **Sélecteur de langue** (`.lang-toggle`)
 - Fond `transparent`, bordure `rgba(255,255,255,0.18)`, texte `--muted-text`
@@ -280,12 +283,14 @@ au chargement et les affiche seulement si le fichier existe. `[hidden] { display
   padding / bordure / fond. Ajouter `↗` dans un `<span aria-hidden>` (pas dans le
   `data-i18n`, qui n'affecte que son propre `<span>`)
 
-### Entrée d'expérience (`.entry`)
-- Grille 2 colonnes `190px / 1fr`, `gap: 32px`, séparée de la suivante par `border-top: 1px solid var(--hairline)`
-  (`.entry:first-of-type` sans bordure)
+### Entrée d'expérience (`.entry`) — carte « verre »
+- **Carte translucide** : fond `--glass-panel`, bordure `--glass-border`, rayon `--r-card`
+  (14px), `backdrop-filter: var(--glass-blur)` → le fond animé se floute derrière
+- Grille 2 colonnes `190px / 1fr`, `gap: 32px`, `padding: 26px 28px`
+- `.entry + .entry { margin-top: 16px }` (plus de séparateur au filet)
 - Colonne gauche `.entry-side` : `.entry-org` (16px / 500) + `.entry-period` (13px, `--muted-text`)
 - Colonne droite `.entry-main` : `<h3>` (18px) + `.entry-list` + `.tags`
-- Sous 768px : une seule colonne, `gap: 10px`
+- Sous 768px : une seule colonne, `gap: 10px`, `padding: 22px 20px`
 
 ### Liste à puces (`.entry-list`)
 - `<ul>` sans marqueur natif, `display: grid`, `gap: 9px`
@@ -341,8 +346,10 @@ ni serrée. Pour séparer deux zones de façon fonctionnelle, on préfère le **
 `--hairline`** à l'ombre.
 
 ### Verre
-Le flou d'arrière-plan (`backdrop-filter`) est réservé à la navigation. Ne pas le
-généraliser aux cartes : il perdrait sa valeur de signal et coûte cher en rendu.
+Le flou d'arrière-plan (`backdrop-filter`, `--glass-blur`) est utilisé sur : la barre de
+nav + son menu, les **boutons secondaires** et les **cartes d'expérience** — pour laisser
+le fond « Glyph Tide » transparaître, flouté. Ne pas l'étendre plus loin (skills et projet
+restent des cartes opaques `--lifted`) : ça coûte cher en rendu par-dessus une animation.
 
 ### Empilement (`z-index`)
 | Couche | `z-index` | Élément |
@@ -379,8 +386,8 @@ généraliser aux cartes : il perdrait sa valeur de signal et coûte cher en ren
 - Pas de rayon hors échelle : ni 4–6px, ni 20px, ni pilule 999px, ni cadre 40px
 - Pas d'orange en fond de bouton ou en aplat — c'est un signal ponctuel
 - Pas de seconde police, pas de serif d'accent
-- Pas de `backdrop-filter` en aplat translucide ailleurs que sur la nav et son menu déroulant
-  (et le menu, lui, est quasi-opaque pour la lisibilité)
+- `backdrop-filter` seulement sur : nav + menu, boutons secondaires, cartes d'expérience.
+  Ne pas l'étendre aux cartes skills/projet (opaques) ni multiplier les surfaces floutées.
 - Pas d'ombre dure / serrée — spread ≥ 32px
 - Pas de capitales au-delà de l'échelle eyebrow (13px) / en-tête de footer (12px)
 - Pas de point d'eyebrow manquant — c'est l'identité

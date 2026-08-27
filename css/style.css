@@ -41,8 +41,10 @@
   --signal: #e8622a;        /* orange signal : points d'eyebrow, liens, focus */
 
   /* Glass */
-  --glass-bg: rgba(24, 22, 18, 0.55);
+  --glass-bg: rgba(24, 22, 18, 0.55);      /* barre de nav */
+  --glass-panel: rgba(28, 26, 21, 0.5);    /* cartes/boutons translucides sur le fond animé */
   --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-blur: blur(12px) saturate(150%);
 
   /* Typographie */
   --font: "Sofia Sans", Arial, sans-serif;
@@ -178,14 +180,18 @@ a {
 }
 
 .btn-secondary {
-  background: transparent;
+  /* verre : le fond animé se floute derrière le bouton */
+  background: var(--glass-panel);
   color: var(--text);
-  border-color: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.16);
   font-weight: 450;
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
 }
 
 .btn-secondary:hover {
-  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(40, 37, 31, 0.62);
+  border-color: rgba(255, 255, 255, 0.42);
 }
 
 /* ---- Navigation « glass » ---- */
@@ -450,18 +456,21 @@ main {
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* ---- Entrées d'expérience ---- */
+/* ---- Entrées d'expérience : cartes « verre » ---- */
 .entry {
   display: grid;
   grid-template-columns: 190px 1fr;
   gap: 32px;
-  padding: 28px 0;
-  border-top: 1px solid var(--hairline);
+  padding: 26px 28px;
+  background: var(--glass-panel);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-card);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
 }
 
-.entry:first-of-type {
-  border-top: 0;
-  padding-top: 4px;
+.entry + .entry {
+  margin-top: 16px;
 }
 
 .entry-org {
@@ -708,6 +717,7 @@ main {
   .entry {
     grid-template-columns: 1fr;
     gap: 10px;
+    padding: 22px 20px;
   }
 
   .project {
@@ -804,10 +814,14 @@ main {
     gap: 10px;
   }
   .skill-group,
-  .project {
+  .project,
+  .entry,
+  .btn-secondary {
     background: #fff !important;
     border-color: #ccc !important;
     box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
     break-inside: avoid;
   }
   .skill-group .tags li,
@@ -820,7 +834,10 @@ main {
   .entry {
     grid-template-columns: 42mm 1fr;
     gap: 8mm;
-    break-inside: avoid;
+    padding: 8px 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid #ddd !important;
   }
 
   .site-footer {
