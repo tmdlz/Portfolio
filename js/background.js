@@ -17,8 +17,8 @@
     font: 14, // taille de police en px
     cellScaleX: 1.5, // pas horizontal = largeur du glyphe * ceci
     cellScaleY: 1.5, // pas vertical = font * ceci
-    color: "162, 154, 138", // --muted-text
-    alphas: [0.028, 0.05, 0.08], // 3 paliers selon la crête de l'onde
+    color: "236, 231, 222", // --text : blanc cassé chaud, pour que les glyphes ressortent
+    alphas: [0.035, 0.06, 0.1], // 3 paliers selon la crête de l'onde
     speed: 0.6, // multiplicateur du temps : lent, mais l'ondulation reste perceptible
     scrollDrift: 3.2, // phase ajoutée à la marée par hauteur d'écran scrollée
     fps: 30,
