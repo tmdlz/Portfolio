@@ -72,9 +72,8 @@ plan), ombres présentes mais diffuses.
 | Nom | Valeur | Variable | Rôle |
 |-----|--------|----------|------|
 | Hairline | `rgba(255,255,255,0.09)` | `--hairline` | Bordure haute des `.section`, séparateur de footer |
-| Glass — nav | `rgba(24,22,18,0.55)` | `--glass-bg` | Fond de la barre de navigation |
-| Glass — panneau | `rgba(28,26,21,0.5)` | `--glass-panel` | Boutons secondaires + cartes d'expérience translucides |
-| Glass — flou | `blur(12px) saturate(150%)` | `--glass-blur` | `backdrop-filter` partagé |
+| Glass — fond | `rgba(24,22,18,0.55)` | `--glass-bg` | Nav, boutons secondaires, cartes d'expérience |
+| Glass — flou | `blur(14px) saturate(160%)` | `--glass-blur` | `backdrop-filter` partagé |
 | Glass — bordure | `rgba(255,255,255,0.10)` | `--glass-border` | Contour des surfaces « verre » |
 | Bordures de boutons | `rgba(255,255,255,0.18 → 0.45)` | — | Contour du bouton secondaire et du sélecteur de langue (0.18 au repos, ~0.45 au hover) |
 
@@ -148,10 +147,11 @@ les trois tons de surface.
 - Usage : action principale (« Me contacter »)
 
 **Secondaire** (`.btn-secondary`)
-- **Verre** : fond `--glass-panel`, `backdrop-filter: var(--glass-blur)` → le fond animé
-  se floute derrière le bouton
-- Texte : `--text` · Bordure : `1px solid rgba(255,255,255,0.16)` · Poids : 450
-- Hover : fond `rgba(40,37,31,0.62)`, bordure `rgba(255,255,255,0.42)` · Actif : `scale(0.98)`
+- **Verre — recette identique à la barre de nav** : `background: var(--glass-bg)`,
+  `border-color: var(--glass-border)`, `box-shadow: var(--shadow-nav)`,
+  `backdrop-filter: var(--glass-blur)`
+- Texte : `--text` · Poids : 450
+- Hover : bordure `rgba(255,255,255,0.24)` · Actif : `scale(0.98)`
 - Usage : « Voir les projets », « Télécharger le CV », « Voir sur GitHub »
 
 **Sélecteur de langue** (`.lang-toggle`)
@@ -284,8 +284,9 @@ au chargement et les affiche seulement si le fichier existe. `[hidden] { display
   `data-i18n`, qui n'affecte que son propre `<span>`)
 
 ### Entrée d'expérience (`.entry`) — carte « verre »
-- **Carte translucide** : fond `--glass-panel`, bordure `--glass-border`, rayon `--r-card`
-  (14px), `backdrop-filter: var(--glass-blur)` → le fond animé se floute derrière
+- **Carte translucide, même recette que la nav** : `background: var(--glass-bg)`,
+  `border: 1px solid var(--glass-border)`, `border-radius: var(--r-card)` (14px),
+  `box-shadow: var(--shadow-nav)`, `backdrop-filter: var(--glass-blur)`
 - Grille 2 colonnes `190px / 1fr`, `gap: 32px`, `padding: 26px 28px`
 - `.entry + .entry { margin-top: 16px }` (plus de séparateur au filet)
 - Colonne gauche `.entry-side` : `.entry-org` (16px / 500) + `.entry-period` (13px, `--muted-text`)
@@ -346,10 +347,10 @@ ni serrée. Pour séparer deux zones de façon fonctionnelle, on préfère le **
 `--hairline`** à l'ombre.
 
 ### Verre
-Le flou d'arrière-plan (`backdrop-filter`, `--glass-blur`) est utilisé sur : la barre de
-nav + son menu, les **boutons secondaires** et les **cartes d'expérience** — pour laisser
-le fond « Glyph Tide » transparaître, flouté. Ne pas l'étendre plus loin (skills et projet
-restent des cartes opaques `--lifted`) : ça coûte cher en rendu par-dessus une animation.
+**Une seule recette de verre** (`--glass-bg` + `--glass-border` + `--shadow-nav` +
+`--glass-blur`), partagée par : la barre de nav + son menu, les **boutons secondaires**,
+les **cartes d'expérience**. Ne pas l'étendre plus loin (skills et projet restent des
+cartes opaques `--lifted`) : le `backdrop-filter` coûte cher par-dessus une animation.
 
 ### Empilement (`z-index`)
 | Couche | `z-index` | Élément |

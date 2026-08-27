@@ -40,11 +40,11 @@
   /* Accents (avec parcimonie) */
   --signal: #e8622a;        /* orange signal : points d'eyebrow, liens, focus */
 
-  /* Glass */
-  --glass-bg: rgba(24, 22, 18, 0.55);      /* barre de nav */
-  --glass-panel: rgba(28, 26, 21, 0.5);    /* cartes/boutons translucides sur le fond animé */
+  /* Glass — une seule recette, partagée par la nav, les boutons secondaires
+     et les cartes d'expérience */
+  --glass-bg: rgba(24, 22, 18, 0.55);
   --glass-border: rgba(255, 255, 255, 0.10);
-  --glass-blur: blur(12px) saturate(150%);
+  --glass-blur: blur(14px) saturate(160%);
 
   /* Typographie */
   --font: "Sofia Sans", Arial, sans-serif;
@@ -180,18 +180,18 @@ a {
 }
 
 .btn-secondary {
-  /* verre : le fond animé se floute derrière le bouton */
-  background: var(--glass-panel);
+  /* même verre que la barre de nav */
+  background: var(--glass-bg);
   color: var(--text);
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: var(--glass-border);
   font-weight: 450;
+  box-shadow: var(--shadow-nav);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
 }
 
 .btn-secondary:hover {
-  background: rgba(40, 37, 31, 0.62);
-  border-color: rgba(255, 255, 255, 0.42);
+  border-color: rgba(255, 255, 255, 0.24);
 }
 
 /* ---- Navigation « glass » ---- */
@@ -210,8 +210,8 @@ a {
   border: 1px solid var(--glass-border);
   border-radius: var(--r-nav);
   box-shadow: var(--shadow-nav);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
 }
 
 .nav-brand {
@@ -456,15 +456,16 @@ main {
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* ---- Entrées d'expérience : cartes « verre » ---- */
+/* ---- Entrées d'expérience : cartes « verre » (même recette que la nav) ---- */
 .entry {
   display: grid;
   grid-template-columns: 190px 1fr;
   gap: 32px;
   padding: 26px 28px;
-  background: var(--glass-panel);
+  background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-radius: var(--r-card);
+  box-shadow: var(--shadow-nav);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
 }
@@ -664,8 +665,8 @@ main {
     border: 1px solid var(--glass-border);
     border-radius: var(--r-nav);
     box-shadow: var(--shadow-nav);
-    -webkit-backdrop-filter: blur(14px) saturate(160%);
-    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-6px);
