@@ -1,0 +1,63 @@
+/* ---- Variables ---- */
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --text: #c9d1d9;
+  --text-dim: #8b949e;
+  --accent: #3fb950;
+  --border: #30363d;
+  --font-mono: "SF Mono", "JetBrains Mono", "Fira Code", Consolas, monospace;
+}
+
+/* ---- Base ---- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  line-height: 1.6;
+  padding: 2rem 1.25rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* ---- En-tête ---- */
+.prompt {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+h1 {
+  color: var(--text);
+  font-size: 2rem;
+  margin-top: 0.25rem;
+}
+
+.role {
+  color: var(--accent);
+  margin-bottom: 2rem;
+}
+
+/* ---- Contenu ---- */
+main {
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+
+/* ---- Pied de page ---- */
+footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+a {
+  color: var(--accent);
+}
