@@ -422,6 +422,34 @@ main {
   border-color: rgba(255, 255, 255, 0.12);
 }
 
+/* Chip cliquable (ex. lien vers une certification) : c'est le <a> qui porte le décor */
+.tags li:has(> a) {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.tags li > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px;
+  color: var(--muted-text);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-btn);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.skill-group .tags li > a {
+  background: var(--canvas);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.tags li > a:hover {
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
 /* ---- Entrées d'expérience ---- */
 .entry {
   display: grid;
@@ -783,7 +811,8 @@ main {
     break-inside: avoid;
   }
   .skill-group .tags li,
-  .tags li {
+  .tags li,
+  .tags li > a {
     background: #fff !important;
     border-color: #bbb !important;
   }
