@@ -76,6 +76,25 @@ a {
   color: #fff;
 }
 
+/* Focus clavier : liseré orange signal */
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}
+
+/* Respecte la préférence « réduire les animations » */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
 /* ---- Eyebrow : point + libellé capitales ---- */
 .eyebrow {
   display: flex;

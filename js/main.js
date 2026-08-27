@@ -32,6 +32,19 @@ const I18N = {
     "skills.az900": "Azure Fundamentals AZ-900 (2026)",
     "skills.langs": "Anglais technique (B1/B2)",
 
+    // Tags formulés en français : à traduire pour la version EN
+    "tag.lxc": "VM & conteneurs LXC",
+    "tag.vlanSegmentation": "Segmentation VLAN",
+    "tag.interVlanRouting": "Routage inter-VLAN",
+    "tag.opnsenseFirewall": "Pare-feu OPNsense",
+    "tag.zabbixMonitoring": "Supervision Zabbix",
+    "tag.glpiTicketing": "Ticketing GLPI",
+    "tag.hardwareAssembly": "Montage matériel",
+    "tag.cabling": "Câblage",
+    "tag.faultDiagnosis": "Diagnostic de pannes",
+    "tag.inventory": "Inventaire",
+    "tag.l1l2Support": "Support N1/N2",
+
     "xp.eyebrow": "Parcours",
     "xp.title": "Expérience professionnelle",
 
@@ -106,6 +119,18 @@ const I18N = {
     "skills.bts": "BTS SIO — SISR track (2024–2026)",
     "skills.az900": "Azure Fundamentals AZ-900 (2026)",
     "skills.langs": "Technical English (B1/B2)",
+
+    "tag.lxc": "VMs & LXC containers",
+    "tag.vlanSegmentation": "VLAN segmentation",
+    "tag.interVlanRouting": "Inter-VLAN routing",
+    "tag.opnsenseFirewall": "OPNsense firewall",
+    "tag.zabbixMonitoring": "Zabbix monitoring",
+    "tag.glpiTicketing": "GLPI ticketing",
+    "tag.hardwareAssembly": "Hardware assembly",
+    "tag.cabling": "Cabling",
+    "tag.faultDiagnosis": "Fault diagnosis",
+    "tag.inventory": "Inventory",
+    "tag.l1l2Support": "L1/L2 support",
 
     "xp.eyebrow": "Career",
     "xp.title": "Professional experience",
@@ -219,6 +244,11 @@ function initNav() {
   // Refermer avec la touche Échap.
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") setOpen(false);
+  });
+
+  // Refermer au clic en dehors de la barre.
+  document.addEventListener("click", (e) => {
+    if (nav.classList.contains("nav-open") && !nav.contains(e.target)) setOpen(false);
   });
 }
 

@@ -91,9 +91,11 @@ les trois tons de surface.
 |------|--------|-------|--------------|----------|---------|
 | H1 (hero) | `clamp(40px, 8vw, 66px)` | 500 | 1.05 | -0.02em | `--text` |
 | H2 (footer) | `clamp(26px, 5vw, 38px)` | 500 | 1.05 | -0.02em | `--text` |
-| H3 | — (à définir avec les futures sections) | 500 | 1.05 | -0.02em | `--text` |
+| H3 (entrée / projet) | 18–19px | 500 | 1.05 | -0.02em | `--text` |
 | Corps | 16px | **450** | 1.45 | normal | `--text` |
-| Lead de section / hero-text | 18px | 450 | 1.45 | normal | `--muted-text` |
+| Lead de section | 18px | 450 | 1.45 | normal | `--muted-text` |
+| Puce de liste (`.entry-list`) | 15px | 450 | 1.5 | normal | `--muted-text` |
+| Tag | 12px | 500 | — | normal | `--muted-text` |
 | Eyebrow | 13px | 700 | — | +0.08em | `--muted-text` · UPPERCASE |
 | Libellé de bouton | 15px | 500 (450 pour le secondaire) | — | -0.01em | — |
 | Lien de nav | 15px | 500 | — | normal | `--muted-text` → `--text` au hover |
@@ -176,7 +178,8 @@ projets. Le libellé traduit va dans un `<span data-i18n>` **à côté** du SVG 
   colonne, **fond quasi-opaque `rgba(20,19,15,0.97)`** (≠ le glass de la barre : un menu doit
   rester lisible par-dessus le contenu), bordure `--glass-border`, rayon `--r-nav`, ombre `--shadow-nav`
 - Transition `opacity` + `translateY` ; état fermé = `visibility: hidden` (hors du parcours clavier)
-- JS (`initNav`) : toggle au clic, fermeture au clic sur un lien et à la touche `Échap`
+- JS (`initNav`) : toggle au clic ; fermeture au clic sur un lien, au clic en dehors de la
+  barre, et à la touche `Échap`
 
 ### Sections (`.section`)
 - `padding: 64px 0` (48px sous 768px)
@@ -230,7 +233,9 @@ projets. Le libellé traduit va dans un `<span data-i18n>` **à côté** du SVG 
 - Fond transparent (pas de remplissage) — c'est une étiquette discrète, pas un bouton
 - **Variante encastrée** (dans une carte `--lifted`) : fond `--canvas` + bordure
   `rgba(255,255,255,0.12)` → la puce paraît enfoncée dans la carte
-- Non traduits (noms propres / technos) sauf cas contenant une phrase (ex. « Formation »)
+- Un nom propre ou une techno (`Proxmox`, `DNS`, `Cisco`) reste tel quel dans les deux
+  langues ; un tag formulé en français (`Câblage`, `Pare-feu OPNsense`, `Support N1/N2`)
+  porte un `data-i18n="tag.*"` et est traduit
 
 ### Entrée d'expérience (`.entry`)
 - Grille 2 colonnes `190px / 1fr`, `gap: 32px`, séparée de la suivante par `border-top: 1px solid var(--hairline)`
@@ -284,7 +289,7 @@ plus large. On ne remplit pas l'espace pour le remplir.
 |--------|-----------|----------|-------|
 | 0 | Aucune ombre | — | Défaut — la quasi-totalité des surfaces |
 | 1 | `rgba(0,0,0,0.35) 0 8px 32px 0` | `--shadow-nav` | Barre de navigation |
-| 2 | `rgba(0,0,0,0.30) 0 24px 48px 0` | `--shadow-card` | Cartes / médias surélevés (futures sections) |
+| 2 | `rgba(0,0,0,0.30) 0 24px 48px 0` | `--shadow-card` | Carte projet (`.project`) ; futurs médias surélevés |
 
 ### Philosophie
 En thème sombre l'ombre porte moins que sur fond clair : elle sert de **coussin
@@ -310,6 +315,8 @@ généraliser aux cartes : il perdrait sa valeur de signal et coûte cher en ren
 - Séparer les sections au filet `--hairline`, pas à l'ombre
 - Rester sur l'échelle de rayons 8 / 14 / 16px (+ 50% pour le point)
 - Trois tons de surface : `deep` → `canvas` → `lifted`
+- Focus clavier visible : `:focus-visible` → liseré `--signal` 2px, `outline-offset: 2px`
+- Respecter `prefers-reduced-motion` (coupe `scroll-behavior` et les transitions)
 
 ### À éviter
 - Pas de noir pur `#000` ni de blanc pur `#fff` en aplat large
