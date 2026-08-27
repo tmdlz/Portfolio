@@ -1,7 +1,8 @@
 # Portfolio — Tom Daluzeau
 
-Portfolio personnel d'un Administrateur Système. Objectif : présenter le profil, les
-expériences et les projets à des recruteurs (infra / systèmes / réseau).
+Portfolio personnel. Poste visé : **Technicien Systèmes & Réseaux** (le CV porte le titre
+« Administrateur Système », mais le poste visé est plus junior). Objectif : présenter le
+profil, les expériences et les projets à des recruteurs (infra / systèmes / réseau).
 
 ## Objectif pédagogique
 
