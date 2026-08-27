@@ -1,12 +1,38 @@
+/* =====================================================================
+   Portfolio Tom Daluzeau — styles
+   Design system : voir DESIGN.md (inspiré de Mastercard)
+   ===================================================================== */
+
 /* ---- Variables ---- */
 :root {
-  --bg: #0d1117;
-  --surface: #161b22;
-  --text: #c9d1d9;
-  --text-dim: #8b949e;
-  --accent: #3fb950;
-  --border: #30363d;
-  --font-mono: "SF Mono", "JetBrains Mono", "Fira Code", Consolas, monospace;
+  /* Surfaces */
+  --canvas: #f3f0ee;        /* fond de page : crème chaud, jamais de blanc pur */
+  --lifted: #fcfbfa;        /* surface « papier sur papier » */
+  --white: #ffffff;         /* nav, cartes, satellites */
+
+  /* Encre & texte */
+  --ink: #141413;           /* noir chaud : titres, boutons, footer */
+  --slate: #696969;         /* texte secondaire */
+
+  /* Accents (à utiliser avec parcimonie) */
+  --signal: #cf4500;        /* orange signal : points d'eyebrow, accents rares */
+  --link-blue: #3860be;     /* liens inline */
+
+  /* Typographie */
+  --font: "Sofia Sans", Arial, sans-serif;
+
+  /* Rayons : petit / bouton / grand cadre / pilule — jamais entre 6 et 20 */
+  --r-btn: 20px;
+  --r-frame: 40px;
+  --r-pill: 999px;
+
+  /* Ombres : larges, douces, faible opacité */
+  --shadow-nav: rgba(0, 0, 0, 0.04) 0 4px 24px 0;
+  --shadow-card: rgba(0, 0, 0, 0.08) 0 24px 48px 0;
+
+  /* Rythme : base 8px */
+  --gutter: 24px;
+  --max-width: 1200px;
 }
 
 /* ---- Base ---- */
@@ -16,48 +42,226 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-mono);
-  line-height: 1.6;
-  padding: 2rem 1.25rem;
-  max-width: 760px;
-  margin: 0 auto;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font);
+  font-weight: 450;               /* poids « signature » : plus doux que 400 */
+  font-size: 16px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ---- En-tête ---- */
-.prompt {
-  color: var(--text-dim);
-  font-size: 0.9rem;
-}
-
-h1 {
-  color: var(--text);
-  font-size: 2rem;
-  margin-top: 0.25rem;
-}
-
-.role {
-  color: var(--accent);
-  margin-bottom: 2rem;
-}
-
-/* ---- Contenu ---- */
-main {
-  border-top: 1px solid var(--border);
-  padding-top: 2rem;
-}
-
-/* ---- Pied de page ---- */
-footer {
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
-  color: var(--text-dim);
-  font-size: 0.9rem;
+h1, h2, h3 {
+  font-weight: 500;
+  letter-spacing: -0.02em;        /* titres serrés = densité éditoriale */
+  line-height: 1.05;
 }
 
 a {
-  color: var(--accent);
+  color: var(--link-blue);
+  text-decoration: none;
+}
+
+/* ---- Eyebrow : point + libellé capitales ---- */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--slate);
+  margin-bottom: 16px;
+}
+
+.eyebrow .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--signal);
+}
+
+/* ---- Boutons ---- */
+.btn {
+  display: inline-block;
+  border-radius: var(--r-btn);
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  border: 1.5px solid var(--ink);
+  transition: transform 0.08s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--canvas);          /* texte crème, pas blanc pur */
+}
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--ink);
+  font-weight: 450;
+}
+
+/* ---- Navigation flottante en pilule ---- */
+.nav-pill {
+  position: sticky;
+  top: 24px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: calc(100% - 2 * var(--gutter));
+  max-width: 960px;
+  margin: 24px auto 0;
+  padding: 12px 16px 12px 24px;
+  background: var(--white);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-nav);
+}
+
+.nav-logo {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  margin-left: auto;
+}
+
+.nav-links a {
+  color: var(--ink);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+}
+
+.nav-cta {
+  padding: 8px 20px;
+  font-size: 15px;
+}
+
+/* ---- Mise en page générale ---- */
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ---- Hero ---- */
+.hero {
+  padding: 96px 0 64px;
+  max-width: 760px;
+}
+
+.hero h1 {
+  font-size: clamp(40px, 8vw, 64px);
+  margin-bottom: 24px;
+}
+
+.hero-text {
+  font-size: 18px;
+  color: var(--ink);
+  max-width: 620px;
+  margin-bottom: 32px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ---- Sections ---- */
+.section {
+  padding: 64px 0;
+  border-top: 1px solid rgba(20, 20, 19, 0.1);
+}
+
+.section-lead {
+  font-size: 18px;
+  max-width: 620px;
+  color: var(--slate);
+}
+
+/* ---- Footer : noir chaud ---- */
+.site-footer {
+  background: var(--ink);
+  color: var(--white);
+  margin-top: 96px;
+  padding: 64px var(--gutter) 96px;
+  border-radius: var(--r-frame) var(--r-frame) 0 0;
+}
+
+.site-footer h2 {
+  font-size: clamp(28px, 5vw, 40px);
+  max-width: 640px;
+  margin: 0 auto 48px;
+  max-width: var(--max-width);
+}
+
+.footer-grid {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 32px;
+}
+
+.footer-head {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 12px;
+}
+
+.footer-col a,
+.footer-col span {
+  display: block;
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 450;
+  margin-bottom: 6px;
+}
+
+.footer-bottom {
+  max-width: var(--max-width);
+  margin: 48px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 767px) {
+  .nav-links {
+    display: none;              /* on ajoutera un menu hamburger plus tard */
+  }
+  .nav-pill {
+    top: 12px;
+  }
+  .hero {
+    padding: 64px 0 48px;
+  }
+  .section {
+    padding: 48px 0;
+  }
 }

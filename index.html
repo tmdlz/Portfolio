@@ -4,27 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tom Daluzeau — Technicien Systèmes & Réseaux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@400..700&display=swap">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <p class="prompt">tom@portfolio:~$ whoami</p>
-    <h1>Tom Daluzeau</h1>
-    <p class="role">Technicien Systèmes &amp; Réseaux</p>
-  </header>
+  <!-- Navigation flottante en pilule (motif signature du design) -->
+  <nav class="nav-pill">
+    <a href="#" class="nav-logo">TD</a>
+    <div class="nav-links">
+      <a href="#profil">Profil</a>
+      <a href="#projets">Projets</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="mailto:tomdaluzeau@gmail.com" class="btn btn-primary nav-cta">Me contacter</a>
+  </nav>
 
   <main>
-    <section id="intro">
-      <p>
-        Active Directory, Linux, réseau (VLAN, pare-feu), virtualisation Proxmox.
-        Diplômé BTS SIO (SISR), certifié Azure Fundamentals (AZ-900).
-        Ce portfolio est en cours de construction.
+    <!-- Hero -->
+    <header class="hero">
+      <p class="eyebrow"><span class="dot"></span>Technicien Systèmes &amp; Réseaux</p>
+      <h1>Tom&nbsp;Daluzeau</h1>
+      <p class="hero-text">
+        Infrastructure, systèmes et réseau — Active Directory, Linux, virtualisation
+        Proxmox, VLAN et pare-feu. Diplômé BTS SIO (SISR), certifié Azure Fundamentals
+        (AZ&#8209;900). Basé à Paris.
+      </p>
+      <div class="hero-actions">
+        <a href="mailto:tomdaluzeau@gmail.com" class="btn btn-primary">Me contacter</a>
+        <a href="#projets" class="btn btn-secondary">Voir les projets</a>
+      </div>
+    </header>
+
+    <section id="profil" class="section">
+      <p class="eyebrow"><span class="dot"></span>Profil</p>
+      <p class="section-lead">
+        Portfolio en cours de construction. Les sections Expériences, Projets et
+        Compétences arrivent prochainement.
       </p>
     </section>
   </main>
 
-  <footer>
-    <p>Paris · Île-de-France — <a href="mailto:tomdaluzeau@gmail.com">tomdaluzeau@gmail.com</a></p>
+  <footer id="contact" class="site-footer">
+    <h2>Discutons de votre infrastructure.</h2>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <p class="footer-head">Contact</p>
+        <a href="mailto:tomdaluzeau@gmail.com">tomdaluzeau@gmail.com</a>
+        <a href="tel:+33767694404">07 67 69 44 04</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-head">Liens</p>
+        <a href="https://linkedin.com/in/daluzeautom" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://github.com/tmdlz" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-head">Localisation</p>
+        <span>Paris · Île-de-France</span>
+      </div>
+    </div>
+    <p class="footer-bottom">© 2026 Tom Daluzeau</p>
   </footer>
 
   <script src="js/main.js"></script>

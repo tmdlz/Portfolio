@@ -21,6 +21,16 @@ de l'outil au fil du travail, avancer par petites étapes.
 - `css/style.css` — styles (un seul fichier)
 - `js/main.js` — interactions (menu, sélecteur de langue, etc.)
 - `assets/` — images, icônes, CV PDF
+- `DESIGN.md` — **cahier des charges visuel** (design system, généré par getdesign, inspiré de Mastercard)
+
+## Design
+
+**Toujours lire `DESIGN.md` avant de toucher au CSS ou à l'HTML de mise en page.**
+En résumé : canvas crème chaud `#F3F0EE` (jamais de blanc pur), formes pilule / cercles
+parfaits, rayons 20px (boutons) / 40px (grands cadres) / 999px (pilules) — jamais entre,
+police Sofia Sans (Google Fonts), corps en `font-weight: 450`, titres en 500 avec
+`letter-spacing: -0.02em`, boutons principaux = pilule noir chaud `#141413` texte crème,
+footer noir chaud `#141413` texte blanc, ombres larges et douces (spread 48px+, opacité ≤10%).
 
 ## Conventions
 
@@ -29,7 +39,6 @@ de l'outil au fil du travail, avancer par petites étapes.
 - Indentation : 2 espaces.
 - HTML sémantique (`<header>`, `<main>`, `<section>`, `<footer>`).
 - CSS : variables CSS pour les couleurs, mobile-first.
-- Style visuel : sobre / technique, dark mode, typographie monospace, esprit terminal.
 
 ## Lancer le site en local
 
