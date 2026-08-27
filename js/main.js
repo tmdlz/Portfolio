@@ -1,7 +1,8 @@
 // =====================================================================
 // Portfolio Tom Daluzeau — interactions
-//   - sélecteur de langue FR / EN
+//   - sélecteur de langue FR / EN (textes, aria-labels, titre d'onglet)
 //   - menu hamburger responsive (< 768px)
+//   - affichage des liens « CV » quand le PDF est présent
 // =====================================================================
 
 // ---------------------------------------------------------------------
@@ -10,11 +11,19 @@
 // ---------------------------------------------------------------------
 const I18N = {
   fr: {
+    "meta.title": "Tom Daluzeau — Technicien Systèmes & Réseaux",
+
+    "aria.home": "Tom Daluzeau — accueil",
+    "aria.lang": "Passer le site en anglais",
+    "aria.menuOpen": "Ouvrir le menu",
+    "aria.menuClose": "Fermer le menu",
+
     "nav.profil": "Profil",
     "nav.experience": "Expériences",
     "nav.projets": "Projets",
     "cta.contact": "Me contacter",
     "cta.projets": "Voir les projets",
+    "cta.cv": "Télécharger le CV",
 
     "hero.eyebrow": "Ouvert aux opportunités",
     "hero.text":
@@ -102,14 +111,23 @@ const I18N = {
     "footer.contact": "Contact",
     "footer.links": "Liens",
     "footer.location": "Localisation",
+    "footer.cv": "CV (PDF)",
   },
 
   en: {
+    "meta.title": "Tom Daluzeau — Systems & Network Technician",
+
+    "aria.home": "Tom Daluzeau — home",
+    "aria.lang": "Switch the site to French",
+    "aria.menuOpen": "Open menu",
+    "aria.menuClose": "Close menu",
+
     "nav.profil": "About",
     "nav.experience": "Experience",
     "nav.projets": "Projects",
     "cta.contact": "Get in touch",
     "cta.projets": "View projects",
+    "cta.cv": "Download CV",
 
     "hero.eyebrow": "Open to opportunities",
     "hero.text":
@@ -191,20 +209,35 @@ const I18N = {
     "footer.contact": "Contact",
     "footer.links": "Links",
     "footer.location": "Location",
+    "footer.cv": "CV (PDF)",
   },
 };
 
 const STORAGE_KEY = "portfolio-lang";
 
+// Langue active, partagée avec les libellés dynamiques (menu hamburger).
+let activeLang = "fr";
+
 // Applique une langue à toute la page.
 function applyLang(lang) {
   const dict = I18N[lang];
   if (!dict) return;
+  activeLang = lang;
 
+  // Textes
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     const key = el.getAttribute("data-i18n");
     if (dict[key]) el.textContent = dict[key];
   });
+
+  // Libellés d'accessibilité (aria-label)
+  document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-aria");
+    if (dict[key]) el.setAttribute("aria-label", dict[key]);
+  });
+
+  // Titre de l'onglet
+  if (dict["meta.title"]) document.title = dict["meta.title"];
 
   document.documentElement.lang = lang;
 
@@ -212,11 +245,37 @@ function applyLang(lang) {
   const toggle = document.getElementById("lang-toggle");
   if (toggle) toggle.textContent = lang === "fr" ? "EN" : "FR";
 
+  // Le libellé du hamburger dépend aussi de son état ouvert/fermé.
+  syncNavToggleLabel();
+
   try {
     localStorage.setItem(STORAGE_KEY, lang);
   } catch (e) {
     /* localStorage indisponible : on ignore */
   }
+}
+
+// Met le aria-label du hamburger à jour (langue active + état ouvert/fermé).
+function syncNavToggleLabel() {
+  const toggle = document.getElementById("nav-toggle");
+  if (!toggle) return;
+  const dict = I18N[activeLang] || I18N.fr;
+  const open = toggle.getAttribute("aria-expanded") === "true";
+  const label = dict[open ? "aria.menuClose" : "aria.menuOpen"];
+  if (label) toggle.setAttribute("aria-label", label);
+}
+
+// Affiche les liens « CV » une fois le PDF présent dans assets/.
+function initCvLinks() {
+  const links = document.querySelectorAll(".js-cv");
+  if (!links.length) return;
+  fetch("assets/cv-tom-daluzeau.pdf", { method: "HEAD" })
+    .then((res) => {
+      if (res.ok) links.forEach((el) => (el.hidden = false));
+    })
+    .catch(() => {
+      /* pas de CV disponible : on laisse les liens masqués */
+    });
 }
 
 // Langue de départ : préférence enregistrée, sinon français.
@@ -241,7 +300,7 @@ function initNav() {
   const setOpen = (open) => {
     nav.classList.toggle("nav-open", open);
     toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
+    syncNavToggleLabel();
   };
 
   toggle.addEventListener("click", () => {
@@ -280,4 +339,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   initNav();
+  initCvLinks();
 });

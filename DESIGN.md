@@ -85,10 +85,13 @@ les trois tons de surface.
 ## 3. Typographie
 
 ### Police
-- **Sofia Sans** (Google Fonts, axe de poids `400..700`), chargée via `<link>` dans `index.html`.
+- **Sofia Sans** (poids variable `400..700`), **auto-hébergée** : deux `.woff2`
+  (`latin`, `latin-ext`) dans `assets/fonts/`, chargés par `@font-face` dans `style.css`
+  avec `font-display: swap`. Pas de Google Fonts, pas de CDN.
 - Pile de repli : `"Sofia Sans", Arial, sans-serif`.
 - **Système à une seule police.** Pas de serif d'accent, pas de police d'affichage secondaire.
   Le contraste vient de l'échelle, du poids et du tracking.
+- Exception : le fond « Glyph Tide » utilise une pile **monospace** système (pur décor).
 
 ### Hiérarchie
 | Rôle | Taille | Poids | Interlignage | Tracking | Couleur |
@@ -158,8 +161,14 @@ les trois tons de surface.
 
 **Bouton à icône** (`.btn-icon`) : `display: inline-flex`, `align-items: center`, `gap: 8px`,
 icône SVG 16×16 en `fill: currentColor`. Combiné à `.btn-secondary` pour le lien GitHub des
-projets. Le libellé traduit va dans un `<span data-i18n>` **à côté** du SVG (jamais de
-`data-i18n` sur un élément qui contient le SVG — `textContent` l'effacerait).
+projets et le **bouton « Télécharger le CV »** du hero. Le libellé traduit va dans un
+`<span data-i18n>` **à côté** du SVG (jamais de `data-i18n` sur un élément qui contient le
+SVG — `textContent` l'effacerait).
+
+**Lien CV** : le bouton du hero (`.js-cv`, `download`) et le lien « CV (PDF) » du footer
+sont en `hidden` par défaut ; `js/main.js` fait un `HEAD` sur `assets/cv-tom-daluzeau.pdf`
+au chargement et les affiche seulement si le fichier existe. `[hidden] { display: none
+!important }` est nécessaire pour battre le `display: inline-flex` du bouton.
 
 ### Fond animé « Glyph Tide » (`#bg-canvas` + `js/background.js`)
 - `<canvas>` en `position: fixed` couvrant le viewport, `z-index: 0`, `pointer-events: none`,
@@ -219,7 +228,9 @@ projets. Le libellé traduit va dans un `<span data-i18n>` **à côté** du SVG 
 - Colonne gauche `.hero-content` : `.eyebrow` (accroche courte) → `<h1>` (le nom) →
   `.hero-text` (18px, `--muted-text`, `max-width: 560px`, `margin-top: 18px` : une phrase
   de positionnement — postes visés, alternance, ville) → `.hero-actions`
-  (flex, `gap: 12px`, `wrap`, `margin-top: 28px`)
+  (flex, `gap: 12px`, `wrap`, `margin-top: 28px`) : « Me contacter » (primaire),
+  « Voir les projets » (secondaire), « Télécharger le CV » (secondaire à icône, masqué
+  tant que le PDF n'est pas là)
 - Colonne droite `.hero-photo` : voir « Photo de profil » ci-dessous
 - Sous 768px : une seule colonne, photo au-dessus du nom (`order: -1`), alignées à gauche
 
@@ -242,6 +253,8 @@ projets. Le libellé traduit va dans un `<span data-i18n>` **à côté** du SVG 
 - En-têtes de colonne : 12px / 700 / capitales / `+0.08em` / `--muted-text`
 - Liens : 14px / 450 / `--text`, hover `--signal`
 - Marqueur de lien externe : `↗` après le texte
+- Colonne « Liens » : LinkedIn, GitHub, et « CV (PDF) » (`.js-cv`, masqué tant que le
+  fichier n'est pas là)
 - `.footer-bottom` : au-dessus, séparateur `1px solid var(--hairline)` ; 13px, `--muted-text`
 
 ### Compétences (`.skills` / `.skill-group`)
@@ -352,6 +365,10 @@ généraliser aux cartes : il perdrait sa valeur de signal et coûte cher en ren
 - Focus clavier visible : `:focus-visible` → liseré `--signal` 2px, `outline-offset: 2px`
 - Respecter `prefers-reduced-motion` (coupe `scroll-behavior`, les transitions et l'animation du fond)
 - Garder le fond « Glyph Tide » sous le contenu (`z-index`) et à faible opacité
+- Prévoir l'impression : `@media print` neutralise le fond, la nav et le dark → version
+  claire lisible, proche d'un CV (à maintenir si on ajoute des sections)
+- Favicon `assets/favicon.svg` : monogramme « TD » clair sur `--canvas` + point orange —
+  garder cette identité si on le retouche
 
 ### À éviter
 - Pas de noir pur `#000` ni de blanc pur `#fff` en aplat large
@@ -375,6 +392,8 @@ généraliser aux cartes : il perdrait sa valeur de signal et coûte cher en ren
 |-----|---------|-------------|
 | Mobile | ≤ 767px | Menu hamburger (`.nav-links` en panneau déroulant), `.nav-cta` masqué ; hero en une colonne, photo au-dessus (168px) ; `.entry` en une colonne ; `padding` hero `72px 0 48px`, sections `48px 0`, `.project` `24px` ; grilles `.skills` / footer déjà fluides (`auto-fit`) |
 | Desktop | ≥ 768px | Nav complète (3 liens + langue + CTA) ; hero en grille 2 colonnes, `<h1>` jusqu'à 66px ; sections à 64px |
+| ≤ 360px | L'étiquette `.nav-tag` « Portfolio » disparaît |
+| `print` | Version claire : voir §7 (fond, nav et dark neutralisés) |
 
 Le `<h1>` et le `<h2>` du footer sont fluides via `clamp()` — pas de palier dédié.
 
@@ -387,7 +406,9 @@ mobile).
 - Repli `backdrop-filter` sur navigateurs sans support : la nav reste sur `--glass-bg`
   semi-opaque (acceptable) ; le menu déroulant est déjà quasi-opaque.
 - Agrandir la zone tactile du sélecteur de langue sous 768px (~32px actuellement).
-- CV PDF téléchargeable dans `assets/` + lien dans le hero et le footer.
+- Déposer `assets/cv-tom-daluzeau.pdf` (les liens CV se révèlent tout seuls).
+- Image dédiée `og:image` en 1200×630 (aujourd'hui : la photo de profil, ratio non idéal).
+- Renforcer le contenu côté DevOps (scripting, conteneurs, IaC, CI/CD) — cf. mémoire profil.
 
 ---
 
