@@ -99,7 +99,7 @@ les trois tons de surface.
 | Rôle | Taille | Poids | Interlignage | Tracking | Couleur |
 |------|--------|-------|--------------|----------|---------|
 | H1 (hero) | `clamp(40px, 8vw, 66px)` | 500 | 1.05 | -0.02em | `--text` |
-| H2 (footer) | `clamp(26px, 5vw, 38px)` | 500 | 1.05 | -0.02em | `--text` |
+| H2 (titre de section) | `clamp(24px, 3.5vw, 32px)` | 500 | 1.05 | -0.02em | `--text` |
 | H3 (entrée / projet) | 18–19px | 500 | 1.05 | -0.02em | `--text` |
 | Corps | 16px | **450** | 1.45 | normal | `--text` |
 | Lead de section / phrase du hero | 18px | 450 | 1.45 | normal | `--muted-text` |
@@ -251,7 +251,7 @@ au chargement et les affiche seulement si le fichier existe. `[hidden] { display
 - `padding: 64px var(--gutter) 80px` · `margin-top: 96px`
 - **Pas de coins arrondis** (la base Mastercard arrondissait le haut du footer à 40px —
   abandonné)
-- `<h2>` conversationnel en haut (« Discutons de votre infrastructure. »)
+- Pas de titre : la grille de 3 colonnes ouvre directement le footer
 - `.footer-grid` : `grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))`, `gap: 32px`
 - En-têtes de colonne : 12px / 700 / capitales / `+0.08em` / `--muted-text`
 - Liens : 14px / 450 / `--text`, hover `--signal`
@@ -406,7 +406,7 @@ restent des cartes opaques `--lifted`) : ça coûte cher en rendu par-dessus une
 | ≤ 360px | L'étiquette `.nav-tag` « Portfolio » disparaît |
 | `print` | Version claire : voir §7 (fond, nav et dark neutralisés) |
 
-Le `<h1>` et le `<h2>` du footer sont fluides via `clamp()` — pas de palier dédié.
+Le `<h1>` et les `.section-title` sont fluides via `clamp()` — pas de palier dédié.
 
 ### Cibles tactiles
 Tous les éléments interactifs dépassent 40px de haut : boutons ~40px, liens de nav ~36px de

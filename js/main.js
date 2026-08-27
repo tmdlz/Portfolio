@@ -107,7 +107,6 @@ const I18N = {
     "proj.conseilpro.b5":
       "Documentation des procédures d'exploitation et suivi des anomalies.",
 
-    "footer.title": "Discutons de votre infrastructure.",
     "footer.contact": "Contact",
     "footer.links": "Liens",
     "footer.location": "Localisation",
@@ -205,7 +204,6 @@ const I18N = {
     "proj.conseilpro.b4": "Zabbix monitoring, GLPI ticketing, Proxmox Backup Server backups.",
     "proj.conseilpro.b5": "Documented operating procedures and tracked incidents.",
 
-    "footer.title": "Let's talk about your infrastructure.",
     "footer.contact": "Contact",
     "footer.links": "Links",
     "footer.location": "Location",
