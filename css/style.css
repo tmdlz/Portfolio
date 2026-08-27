@@ -54,9 +54,8 @@
   --r-card: 14px;
   --r-nav: 16px;
 
-  /* Ombres : larges, douces, faible opacité */
+  /* Ombre partagée par toutes les surfaces « verre » */
   --shadow-nav: rgba(0, 0, 0, 0.35) 0 8px 32px 0;
-  --shadow-card: rgba(0, 0, 0, 0.30) 0 24px 48px 0;
 
   /* Rythme : base 8px */
   --gutter: 24px;
@@ -371,9 +370,12 @@ main {
 
 .skill-group {
   padding: 22px 22px 24px;
-  background: var(--lifted);
-  border: 1px solid var(--hairline);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
   border-radius: var(--r-card);
+  box-shadow: var(--shadow-nav);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
 }
 
 .skill-head {
@@ -421,11 +423,11 @@ main {
   gap: 7px;
 }
 
-/* Chips « encastrées » : plus sombres que la carte qui les porte */
-.skill-group .tags li {
+/* Sur les cartes « verre », les chips restent transparentes (bordure un peu plus visible) */
+.skill-group .tags li,
+.skill-group .tags li > a {
   padding: 6px 11px;
-  background: var(--canvas);
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.16);
 }
 
 /* Chip cliquable (ex. lien vers une certification) : c'est le <a> qui porte le décor */
@@ -444,11 +446,6 @@ main {
   border: 1px solid var(--hairline);
   border-radius: var(--r-btn);
   transition: color 0.15s ease, border-color 0.15s ease;
-}
-
-.skill-group .tags li > a {
-  background: var(--canvas);
-  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .tags li > a:hover {
@@ -519,10 +516,12 @@ main {
 /* ---- Carte projet ---- */
 .project {
   padding: 32px;
-  background: var(--lifted);
-  border: 1px solid var(--hairline);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
   border-radius: var(--r-card);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-nav);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
 }
 
 .project-head h3 {

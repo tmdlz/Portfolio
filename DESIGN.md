@@ -41,7 +41,9 @@ plan), ombres présentes mais diffuses.
 - Orange signal (`#e8622a`) : points d'eyebrow, focus, hover de liens footer, sélection de texte — rien d'autre
 - Navigation translucide floutée, coins à 16px, flottante (pas collée à `y=0`)
 - Rayons courts et tranchés : 8px (boutons), 14px (cartes), 16px (nav) — jamais de pilule 999px, jamais de cadre 40px
-- Trois tons de surface : `deep` (footer) → `canvas` (page) → `lifted` (encarts surélevés)
+- **Tout ce qui est « carte » est en verre** (nav, boutons secondaires, groupes de
+  compétences, entrées d'expérience, carte projet) : une seule recette translucide + flou.
+  Le footer reste une bande opaque `--deep`, la page est `--canvas`.
 - Filets `hairline` (blanc à 9%) pour séparer les sections, à la place des ombres fonctionnelles
 - Eyebrow : point orange + libellé capitales, tracking large — signal de catégorie de section
 
@@ -54,7 +56,7 @@ plan), ombres présentes mais diffuses.
 |-----|-----|----------|------|
 | Deep | `#0d0c0a` | `--deep` | Footer, zones « enfoncées » |
 | Canvas | `#14130f` | `--canvas` | Fond de page par défaut, texte des boutons primaires |
-| Lifted | `#1e1c17` | `--lifted` | Surface « papier sur papier » : encarts, cartes surélevées |
+| Lifted | `#1e1c17` | `--lifted` | Fond de la photo du hero (derrière les zones transparentes du PNG) — plus utilisé pour les cartes, passées au verre |
 
 ### Texte
 | Nom | Hex | Variable | Rôle |
@@ -129,7 +131,7 @@ les trois tons de surface.
 | Variable | Valeur | Usage |
 |----------|--------|-------|
 | `--r-btn` | `8px` | Boutons, sélecteur de langue |
-| `--r-card` | `14px` | Cartes projet, encarts `lifted`, photo du hero |
+| `--r-card` | `14px` | Toutes les cartes verre + la photo du hero |
 | `--r-nav` | `16px` | Barre de navigation |
 | — | `50%` | Point d'eyebrow uniquement |
 
@@ -188,8 +190,8 @@ au chargement et les affiche seulement si le fichier existe. `[hidden] { display
 - Pause quand l'onglet est masqué ; respecte `prefers-reduced-motion` (nappe figée)
 - Réglages dans l'objet `CONFIG` en tête de `js/background.js` (`ramp`, `font`,
   `cellScaleX/Y`, `color`, `alphas`, `speed`, `scrollDrift`, `fps`)
-- Reste **un fond** : ne jamais monter l'opacité au point de gêner la lecture. Les surfaces
-  `--lifted` / `--deep` (cartes, footer) le masquent localement, c'est voulu.
+- Reste **un fond** : ne jamais monter l'opacité au point de gêner la lecture. Les cartes
+  verre le floutent localement (et le footer opaque le masque) — c'est voulu.
 
 ### Navigation « glass » (`.nav-pill`)
 - `position: sticky` ; `top: 16px` ; `z-index: 10`
@@ -262,19 +264,18 @@ au chargement et les affiche seulement si le fichier existe. `[hidden] { display
 
 ### Compétences (`.skills` / `.skill-group`)
 - `.skills` : grille `repeat(auto-fit, minmax(240px, 1fr))`, `gap: 20px`, `margin-top: 40px`
-- Chaque `.skill-group` est une **carte** : fond `--lifted`, bordure `--hairline`,
-  rayon `--r-card` (14px), `padding: 22px 22px 24px`
+- Chaque `.skill-group` est une **carte « verre »** (recette commune, voir « Verre » §6),
+  `padding: 22px 22px 24px`
 - `.skill-head` : 12px / 700 / capitales / `+0.08em` / `--muted-text`, précédé d'un
   **point orange** `--signal` de 6px (`::before`, comme les eyebrow)
-- Contient une liste `.tags` en variante « encastrée » (voir ci-dessous)
+- Contient une liste `.tags` (chips transparentes, bordure un peu plus visible : `0.16`)
 
 ### Tags (`.tags`)
 - Puces techniques (technos, mots-clés) — jamais de phrase
 - `<ul>` en `flex` `wrap`, `gap: 8px`
 - `<li>` : 12px / 500, `--muted-text`, `padding: 5px 10px`, bordure `--hairline`, rayon `--r-btn` (8px)
-- Fond transparent (pas de remplissage) — c'est une étiquette discrète, pas un bouton
-- **Variante encastrée** (dans une carte `--lifted`) : fond `--canvas` + bordure
-  `rgba(255,255,255,0.12)` → la puce paraît enfoncée dans la carte
+- **Fond toujours transparent** — sur les cartes verre, on remonte juste la bordure à
+  `rgba(255,255,255,0.16)` pour la définition
 - Un nom propre ou une techno (`Proxmox`, `DNS`, `Cisco`) reste tel quel dans les deux
   langues ; un tag formulé en français (`Câblage`, `Pare-feu OPNsense`, `Support N1/N2`)
   porte un `data-i18n="tag.*"` et est traduit
@@ -299,7 +300,7 @@ au chargement et les affiche seulement si le fichier existe. `[hidden] { display
 - Puce = **petit disque orange** `--signal` de 5px en `::before` (reprise du point d'eyebrow)
 
 ### Carte projet (`.project`)
-- Fond `--lifted`, bordure `--hairline`, rayon `--r-card` (14px), `box-shadow: var(--shadow-card)`
+- **Carte « verre »** (recette commune, voir §6)
 - `padding: 32px` (24px sous 768px)
 - Contenu : `<h3>` (19px) + `.entry-period` + `.project-desc` (`--muted-text`, `max-width: 640px`)
   + `.entry-list` + `.tags` + `.project-actions` (`margin-top: 24px`) contenant le lien GitHub
@@ -336,21 +337,24 @@ plus large. On ne remplit pas l'espace pour le remplir.
 
 | Niveau | Traitement | Variable | Usage |
 |--------|-----------|----------|-------|
-| 0 | Aucune ombre | — | Défaut — la quasi-totalité des surfaces |
-| 1 | `rgba(0,0,0,0.35) 0 8px 32px 0` | `--shadow-nav` | Barre de navigation |
-| 2 | `rgba(0,0,0,0.30) 0 24px 48px 0` | `--shadow-card` | Carte projet (`.project`) ; futurs médias surélevés |
+| 0 | Aucune ombre | — | Sections, footer, texte |
+| 1 | `rgba(0,0,0,0.35) 0 8px 32px 0` | `--shadow-nav` | **Toutes les surfaces « verre »** (nav, boutons secondaires, cartes) |
 
 ### Philosophie
 En thème sombre l'ombre porte moins que sur fond clair : elle sert de **coussin
-atmosphérique**, pas de lumière directionnelle. Spread large (32–48px), pas d'ombre dure
+atmosphérique**, pas de lumière directionnelle. Spread large (~32px), pas d'ombre dure
 ni serrée. Pour séparer deux zones de façon fonctionnelle, on préfère le **filet
 `--hairline`** à l'ombre.
 
-### Verre
-**Une seule recette de verre** (`--glass-bg` + `--glass-border` + `--shadow-nav` +
-`--glass-blur`), partagée par : la barre de nav + son menu, les **boutons secondaires**,
-les **cartes d'expérience**. Ne pas l'étendre plus loin (skills et projet restent des
-cartes opaques `--lifted`) : le `backdrop-filter` coûte cher par-dessus une animation.
+### Verre — la recette unique
+`background: var(--glass-bg)` (`rgba(24,22,18,0.55)`) + `border: 1px solid var(--glass-border)`
+(`rgba(255,255,255,0.10)`) + `box-shadow: var(--shadow-nav)` +
+`backdrop-filter: var(--glass-blur)` (`blur(14px) saturate(160%)`).
+
+Appliquée à : **barre de nav + menu, boutons secondaires, groupes de compétences, entrées
+d'expérience, carte projet**. Tout se règle depuis `:root`. Ne pas ajouter d'autres surfaces
+floutées : le `backdrop-filter` coûte cher par-dessus l'animation du fond (on est déjà à ~14
+instances). Le footer reste opaque.
 
 ### Empilement (`z-index`)
 | Couche | `z-index` | Élément |
@@ -373,7 +377,7 @@ cartes opaques `--lifted`) : le `backdrop-filter` coûte cher par-dessus une ani
 - Bouton primaire = pavé clair (`--text`) texte sombre, rayon 8px
 - Séparer les sections au filet `--hairline`, pas à l'ombre
 - Rester sur l'échelle de rayons 8 / 14 / 16px (+ 50% pour le point)
-- Trois tons de surface : `deep` → `canvas` → `lifted`
+- Toute carte = la recette de verre unique (§6) ; le footer reste opaque `--deep`
 - Focus clavier visible : `:focus-visible` → liseré `--signal` 2px, `outline-offset: 2px`
 - Respecter `prefers-reduced-motion` (coupe `scroll-behavior`, les transitions et l'animation du fond)
 - Garder le fond « Glyph Tide » sous le contenu (`z-index`) et à faible opacité
@@ -387,8 +391,9 @@ cartes opaques `--lifted`) : le `backdrop-filter` coûte cher par-dessus une ani
 - Pas de rayon hors échelle : ni 4–6px, ni 20px, ni pilule 999px, ni cadre 40px
 - Pas d'orange en fond de bouton ou en aplat — c'est un signal ponctuel
 - Pas de seconde police, pas de serif d'accent
-- `backdrop-filter` seulement sur : nav + menu, boutons secondaires, cartes d'expérience.
-  Ne pas l'étendre aux cartes skills/projet (opaques) ni multiplier les surfaces floutées.
+- `backdrop-filter` sur : nav + menu, boutons secondaires, et **toutes les cartes**
+  (compétences, expérience, projet). Ne pas en ajouter d'autres — c'est déjà ~14 instances
+  par-dessus une animation.
 - Pas d'ombre dure / serrée — spread ≥ 32px
 - Pas de capitales au-delà de l'échelle eyebrow (13px) / en-tête de footer (12px)
 - Pas de point d'eyebrow manquant — c'est l'identité
