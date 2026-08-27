@@ -27,10 +27,13 @@ qu'avec un vrai serveur HTTP.)
 
 ## Déploiement — GitHub Pages
 
-1. Créer un dépôt GitHub, y pousser `main`.
+Dépôt : <https://github.com/tmdlz/Portfolio> · Site : <https://tmdlz.github.io/Portfolio/>
+
+1. Pousser `main` sur le dépôt.
 2. *Settings → Pages* → *Deploy from a branch* → `main` / `/ (root)`.
 3. Le fichier `.nojekyll` évite tout traitement Jekyll.
-4. Vérifier / corriger l'URL absolue dans les balises `og:*` et `canonical` de `index.html`.
+4. Les URL absolues (`og:*`, `canonical`) pointent sur `https://tmdlz.github.io/Portfolio/`
+   — casse comprise (`Portfolio` avec un P majuscule).
 
 ## Contenu
 
