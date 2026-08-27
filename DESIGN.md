@@ -22,14 +22,18 @@ avec parcimonie comme signal.
 Deux gestes portent l'identité :
 
 1. **La navigation « glass ».** Une barre translucide flottante (`backdrop-filter: blur`)
-   qui laisse transparaître le contenu qui défile dessous. C'est le seul élément
-   ostensiblement « effet ». Elle est posée à 16px du haut, en `position: sticky`.
+   qui laisse transparaître le contenu qui défile dessous. Posée à 16px du haut, en
+   `position: sticky`.
 2. **Le point d'eyebrow.** Chaque libellé de section est précédé d'un petit disque orange
    de 6px. C'est l'élément d'identité à ne jamais retirer.
+3. **Le fond animé « Pixel Pulse ».** Un mur de cellules type LED, très discret, traversé
+   par des anneaux concentriques orange qui irradient du centre. Motion lente et calme,
+   jamais au premier plan (voir §4).
 
 Le reste est délibérément sobre : rayons courts (8–16px), pas de dégradés, pas de portraits
-circulaires ni d'arcs décoratifs (ce motif Mastercard est abandonné dans cette variante),
-ombres présentes mais diffuses.
+circulaires ni d'arcs décoratifs entre eux (ce motif Mastercard est abandonné dans cette
+variante — le fond « Pixel Pulse » est une couche à part, jamais un ornement de premier
+plan), ombres présentes mais diffuses.
 
 **Caractéristiques clés**
 - Canvas brun-noir chaud (`#14130f`) — jamais `#000`, jamais de gris froid
@@ -157,16 +161,31 @@ icône SVG 16×16 en `fill: currentColor`. Combiné à `.btn-secondary` pour le 
 projets. Le libellé traduit va dans un `<span data-i18n>` **à côté** du SVG (jamais de
 `data-i18n` sur un élément qui contient le SVG — `textContent` l'effacerait).
 
+### Fond animé « Pixel Pulse » (`#bg-canvas` + `js/background.js`)
+- `<canvas>` en `position: fixed` couvrant le viewport, `z-index: 0`, `pointer-events: none`
+- Le contenu passe au-dessus : `main` et `.site-footer` en `position: relative; z-index: 1`,
+  la nav en `z-index: 10`
+- Canvas 2D, sans dépendance. Grille de cellules arrondies (pas `26px`, remplissage `0.6`,
+  coins `3px`) en `--text` à `~4,5 %` d'opacité ; anneaux concentriques en `--signal`
+  (crête à `~32 %`) qui partent du point `(50 % ; 40 %)` et se répètent toutes les 6,5 s
+- Atténuation vers les bords, `devicePixelRatio` plafonné à 2
+- Se met en pause quand l'onglet est masqué ; respecte `prefers-reduced-motion` (grille
+  fixe, sans onde)
+- Reste **un fond** : ne jamais monter l'opacité au point de gêner la lecture. Les surfaces
+  `--lifted` / `--deep` (cartes, footer) le masquent localement, c'est voulu.
+
 ### Navigation « glass » (`.nav-pill`)
 - `position: sticky` ; `top: 16px` ; `z-index: 10`
 - `display: flex` ; `align-items: center` ; `gap: 20px`
 - `width: calc(100% - 2 * var(--gutter))` ; `max-width: 960px` ; `margin: 16px auto 0`
-- `padding: 10px 12px 10px 20px` (plus d'air à gauche pour le logo)
+- `padding: 10px 12px 10px 20px` (plus d'air à gauche pour la marque)
 - Fond `--glass-bg` ; bordure `1px solid --glass-border` ; rayon `--r-nav` (16px)
 - `box-shadow: var(--shadow-nav)`
 - `backdrop-filter: blur(14px) saturate(160%)` (+ préfixe `-webkit-`)
-- Contenu : logo `TD` à gauche → liens `.nav-links` (poussés à droite via `margin-left: auto`,
-  `gap: 28px`) → sélecteur de langue → CTA → hamburger (masqué au-dessus de 768px)
+- Contenu : `.nav-brand` (logo `TD` + étiquette `.nav-tag` « Portfolio » séparée par un
+  filet `--hairline`, capitales 12px `--muted-text` ; masquée sous 360px) → liens
+  `.nav-links` (poussés à droite via `margin-left: auto`, `gap: 28px`) → sélecteur de
+  langue → CTA → hamburger (masqué au-dessus de 768px)
 - Liens au repos en `--muted-text`, hover en `--text` (transition `color 0.15s`)
 - Max 3 liens dans `.nav-links` — garder la barre aérée
 
@@ -303,6 +322,14 @@ ni serrée. Pour séparer deux zones de façon fonctionnelle, on préfère le **
 Le flou d'arrière-plan (`backdrop-filter`) est réservé à la navigation. Ne pas le
 généraliser aux cartes : il perdrait sa valeur de signal et coûte cher en rendu.
 
+### Empilement (`z-index`)
+| Couche | `z-index` | Élément |
+|--------|-----------|---------|
+| Fond animé | `0` | `#bg-canvas` (fixed, sous tout le reste) |
+| Contenu | `1` | `main`, `.site-footer` (positionnés pour passer devant le canvas) |
+| Navigation | `10` | `.nav-pill` |
+| Menu mobile | (dans la nav) | `.nav-links` déroulé |
+
 ---
 
 ## 7. À faire / à éviter
@@ -318,7 +345,8 @@ généraliser aux cartes : il perdrait sa valeur de signal et coûte cher en ren
 - Rester sur l'échelle de rayons 8 / 14 / 16px (+ 50% pour le point)
 - Trois tons de surface : `deep` → `canvas` → `lifted`
 - Focus clavier visible : `:focus-visible` → liseré `--signal` 2px, `outline-offset: 2px`
-- Respecter `prefers-reduced-motion` (coupe `scroll-behavior` et les transitions)
+- Respecter `prefers-reduced-motion` (coupe `scroll-behavior`, les transitions et l'onde du fond)
+- Garder le fond « Pixel Pulse » sous le contenu (`z-index`) et à faible opacité
 
 ### À éviter
 - Pas de noir pur `#000` ni de blanc pur `#fff` en aplat large

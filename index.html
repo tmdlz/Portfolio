@@ -10,9 +10,15 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- Fond animé « Pixel Pulse » (voir js/background.js) -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
   <!-- Navigation « glass » -->
   <nav class="nav-pill" id="nav">
-    <a href="#" class="nav-logo">TD</a>
+    <div class="nav-brand">
+      <a href="#" class="nav-logo">TD</a>
+      <span class="nav-tag">Portfolio</span>
+    </div>
 
     <div class="nav-links" id="nav-links">
       <a href="#profil" data-i18n="nav.profil">Profil</a>
@@ -222,6 +228,7 @@
     <p class="footer-bottom">© 2026 Tom Daluzeau</p>
   </footer>
 
+  <script src="js/background.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
