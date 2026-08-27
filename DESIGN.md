@@ -353,8 +353,6 @@ mobile).
   semi-opaque (acceptable) ; le menu déroulant est déjà quasi-opaque.
 - Agrandir la zone tactile du sélecteur de langue sous 768px (~32px actuellement).
 - CV PDF téléchargeable dans `assets/` + lien dans le hero et le footer.
-- Renseigner l'URL exacte du dépôt ConseilPro sur le bouton GitHub de la carte projet
-  (placeholder actuel : `github.com/tmdlz`).
 
 ---
 
