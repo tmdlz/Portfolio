@@ -275,6 +275,10 @@ au chargement et les affiche seulement si le fichier existe. `[hidden] { display
 - Un nom propre ou une techno (`Proxmox`, `DNS`, `Cisco`) reste tel quel dans les deux
   langues ; un tag formulé en français (`Câblage`, `Pare-feu OPNsense`, `Support N1/N2`)
   porte un `data-i18n="tag.*"` et est traduit
+- **Tag cliquable** (ex. certification AZ-900 → Microsoft Learn) : mettre un `<a>` direct
+  dans le `<li>` ; `.tags li:has(> a)` remet le `<li>` à zéro et c'est le `<a>` qui reçoit
+  padding / bordure / fond. Ajouter `↗` dans un `<span aria-hidden>` (pas dans le
+  `data-i18n`, qui n'affecte que son propre `<span>`)
 
 ### Entrée d'expérience (`.entry`)
 - Grille 2 colonnes `190px / 1fr`, `gap: 32px`, séparée de la suivante par `border-top: 1px solid var(--hairline)`
