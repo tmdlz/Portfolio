@@ -16,13 +16,20 @@ const I18N = {
     "cta.contact": "Me contacter",
     "cta.projets": "Voir les projets",
 
+    "hero.eyebrow": "Ouvert aux opportunités",
+    "hero.text":
+      "Ouvert à un poste de technicien ou d'administrateur systèmes & réseaux, ou à une " +
+      "alternance DevOps à l'ESGI — 3 semaines en entreprise, 1 semaine à l'école. " +
+      "Basé à Paris.",
+
     "profil.eyebrow": "Profil",
     "profil.title": "À propos",
     "profil.lead":
       "24 ans, diplômé du BTS SIO option SISR et certifié Microsoft Azure Fundamentals " +
-      "(AZ-900). Une alternance comme unique responsable IT d'une start-up, un homelab " +
+      "(AZ-900). Un an d'alternance comme unique responsable IT d'une start-up, un homelab " +
       "complet en production simulée et une mission terrain sur du matériel interactif. " +
-      "Je vise un poste de Technicien Systèmes & Réseaux en Île-de-France.",
+      "Je cherche un poste de technicien ou d'administrateur systèmes & réseaux, ou une " +
+      "alternance DevOps, en Île-de-France.",
 
     "skills.systems": "Systèmes",
     "skills.network": "Réseau",
@@ -104,13 +111,18 @@ const I18N = {
     "cta.contact": "Get in touch",
     "cta.projets": "View projects",
 
+    "hero.eyebrow": "Open to opportunities",
+    "hero.text":
+      "Open to a systems & network technician or administrator position, or a DevOps " +
+      "apprenticeship at ESGI — 3 weeks in-company, 1 week at school. Based in Paris.",
+
     "profil.eyebrow": "About",
     "profil.title": "About",
     "profil.lead":
       "24, BTS SIO (SISR) graduate and Microsoft Azure Fundamentals (AZ-900) certified. " +
-      "One apprenticeship as the sole IT lead of a start-up, a full simulated-production " +
-      "homelab, and a field assignment on interactive hardware. Looking for a Systems & " +
-      "Network Technician role in the Paris region.",
+      "A year as the sole IT lead of a start-up (apprenticeship), a full simulated-production " +
+      "homelab, and a field assignment on interactive hardware. Looking for a systems & " +
+      "network technician or administrator role, or a DevOps apprenticeship, in the Paris region.",
 
     "skills.systems": "Systems",
     "skills.network": "Network",

@@ -93,7 +93,7 @@ les trois tons de surface.
 | H2 (footer) | `clamp(26px, 5vw, 38px)` | 500 | 1.05 | -0.02em | `--text` |
 | H3 (entrée / projet) | 18–19px | 500 | 1.05 | -0.02em | `--text` |
 | Corps | 16px | **450** | 1.45 | normal | `--text` |
-| Lead de section | 18px | 450 | 1.45 | normal | `--muted-text` |
+| Lead de section / phrase du hero | 18px | 450 | 1.45 | normal | `--muted-text` |
 | Puce de liste (`.entry-list`) | 15px | 450 | 1.5 | normal | `--muted-text` |
 | Tag | 12px | 500 | — | normal | `--muted-text` |
 | Eyebrow | 13px | 700 | — | +0.08em | `--muted-text` · UPPERCASE |
@@ -192,8 +192,10 @@ projets. Le libellé traduit va dans un `<span data-i18n>` **à côté** du SVG 
 ### Hero (`.hero`)
 - `padding: 100px 0 72px` (72px 0 48px sous 768px)
 - **Grille 2 colonnes** `1.5fr / 1fr`, `gap: 56px`, `align-items: center`
-- Colonne gauche `.hero-content` : **le nom seul** (`<h1>`) puis `.hero-actions`
-  (flex, `gap: 12px`, `wrap`, `margin-top: 28px`) — pas d'eyebrow, pas de paragraphe
+- Colonne gauche `.hero-content` : `.eyebrow` (accroche courte) → `<h1>` (le nom) →
+  `.hero-text` (18px, `--muted-text`, `max-width: 560px`, `margin-top: 18px` : une phrase
+  de positionnement — postes visés, alternance, ville) → `.hero-actions`
+  (flex, `gap: 12px`, `wrap`, `margin-top: 28px`)
 - Colonne droite `.hero-photo` : voir « Photo de profil » ci-dessous
 - Sous 768px : une seule colonne, photo au-dessus du nom (`order: -1`), alignées à gauche
 

@@ -255,6 +255,13 @@ main {
   margin-bottom: 22px;
 }
 
+.hero-text {
+  margin-top: 18px;
+  max-width: 560px;
+  font-size: 18px;
+  color: var(--muted-text);
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
