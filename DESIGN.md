@@ -171,9 +171,11 @@ projets. Le libellé traduit va dans un `<span data-i18n>` **à côté** du SVG 
   d'ondes** = somme de sinusoïdes + une onde radiale (la « respiration »).
 - Une seule couleur (`--muted-text`), 3 paliers d'opacité `~3 → 8 %` selon la crête ;
   ~30 fps ; `devicePixelRatio` plafonné à 2
+- **Rythme** : lent (`speed: 0.6`) mais l'ondulation reste perceptible. Le `scrollY`
+  fait aussi dériver la marée (`scrollDrift`) → l'animation se voit clairement en scrollant.
 - Pause quand l'onglet est masqué ; respecte `prefers-reduced-motion` (nappe figée)
 - Réglages dans l'objet `CONFIG` en tête de `js/background.js` (`ramp`, `font`,
-  `cellScaleX/Y`, `color`, `alphas`, `speed`, `fps`)
+  `cellScaleX/Y`, `color`, `alphas`, `speed`, `scrollDrift`, `fps`)
 - Reste **un fond** : ne jamais monter l'opacité au point de gêner la lecture. Les surfaces
   `--lifted` / `--deep` (cartes, footer) le masquent localement, c'est voulu.
 

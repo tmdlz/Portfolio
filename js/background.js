@@ -19,7 +19,8 @@
     cellScaleY: 1.5, // pas vertical = font * ceci
     color: "162, 154, 138", // --muted-text
     alphas: [0.028, 0.05, 0.08], // 3 paliers selon la crête de l'onde
-    speed: 1, // multiplicateur de vitesse
+    speed: 0.6, // multiplicateur du temps : lent, mais l'ondulation reste perceptible
+    scrollDrift: 3.2, // phase ajoutée à la marée par hauteur d'écran scrollée
     fps: 30,
   };
 
@@ -66,6 +67,8 @@
     const last = ramp.length - 1;
     const halfC = cols / 2;
     const halfR = rows / 2;
+    // le scroll fait dériver la marée → l'animation reste visible même quand on scrolle
+    const scroll = (window.scrollY / Math.max(vh, 1)) * CONFIG.scrollDrift;
     let bucket = -1;
 
     for (let gy = 0; gy < rows; gy++) {
@@ -73,10 +76,10 @@
       for (let gx = 0; gx < cols; gx++) {
         // champ d'ondes : plusieurs sinusoïdes + une onde radiale (« respiration »)
         const w =
-          Math.sin(gx * 0.18 + t * 0.9) +
-          Math.sin(gy * 0.26 - t * 0.7) +
-          Math.sin((gx + gy) * 0.1 + t * 0.45) +
-          Math.sin(Math.hypot(gx - halfC, gy - halfR) * 0.16 - t * 1.1);
+          Math.sin(gx * 0.16 + t * 0.9) +
+          Math.sin(gy * 0.24 - t * 0.7 - scroll) +
+          Math.sin((gx + gy) * 0.09 + t * 0.45) +
+          Math.sin(Math.hypot(gx - halfC, gy - halfR) * 0.15 - t * 1.1);
 
         const v = (w + 4) / 8; // 0 → 1
         const glyph = ramp[(v * last) | 0];
