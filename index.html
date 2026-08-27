@@ -10,57 +10,203 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Navigation flottante en pilule (motif signature du design) -->
-  <nav class="nav-pill">
+  <!-- Navigation « glass » -->
+  <nav class="nav-pill" id="nav">
     <a href="#" class="nav-logo">TD</a>
-    <div class="nav-links">
-      <a href="#profil">Profil</a>
-      <a href="#projets">Projets</a>
-      <a href="#contact">Contact</a>
+
+    <div class="nav-links" id="nav-links">
+      <a href="#profil" data-i18n="nav.profil">Profil</a>
+      <a href="#experience" data-i18n="nav.experience">Expériences</a>
+      <a href="#projets" data-i18n="nav.projets">Projets</a>
     </div>
-    <a href="mailto:tomdaluzeau@gmail.com" class="btn btn-primary nav-cta">Me contacter</a>
+
+    <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Changer de langue">EN</button>
+    <a href="mailto:tomdaluzeau@gmail.com" class="btn btn-primary nav-cta" data-i18n="cta.contact">Me contacter</a>
+
+    <!-- Bouton hamburger : visible uniquement sous 768px -->
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
   <main>
     <!-- Hero -->
     <header class="hero">
-      <p class="eyebrow"><span class="dot"></span>Technicien Systèmes &amp; Réseaux</p>
-      <h1>Tom&nbsp;Daluzeau</h1>
-      <p class="hero-text">
-        Infrastructure, systèmes et réseau — Active Directory, Linux, virtualisation
-        Proxmox, VLAN et pare-feu. Diplômé BTS SIO (SISR), certifié Azure Fundamentals
-        (AZ&#8209;900). Basé à Paris.
-      </p>
-      <div class="hero-actions">
-        <a href="mailto:tomdaluzeau@gmail.com" class="btn btn-primary">Me contacter</a>
-        <a href="#projets" class="btn btn-secondary">Voir les projets</a>
+      <div class="hero-content">
+        <p class="eyebrow"><span class="dot"></span><span data-i18n="hero.eyebrow">Technicien Systèmes &amp; Réseaux</span></p>
+        <h1>Tom&nbsp;Daluzeau</h1>
+        <p class="hero-text" data-i18n="hero.text">
+          Infrastructure, systèmes et réseau — Active Directory, Linux, virtualisation
+          Proxmox, VLAN et pare-feu. Diplômé BTS SIO (SISR), certifié Azure Fundamentals
+          (AZ-900). Basé à Paris.
+        </p>
+        <div class="hero-actions">
+          <a href="mailto:tomdaluzeau@gmail.com" class="btn btn-primary" data-i18n="cta.contact">Me contacter</a>
+          <a href="#projets" class="btn btn-secondary" data-i18n="cta.projets">Voir les projets</a>
+        </div>
       </div>
+      <img class="hero-photo" src="assets/profile-picture.png"
+           alt="Tom Daluzeau" width="782" height="702" decoding="async">
     </header>
 
+    <!-- Profil -->
     <section id="profil" class="section">
-      <p class="eyebrow"><span class="dot"></span>Profil</p>
-      <p class="section-lead">
-        Portfolio en cours de construction. Les sections Expériences, Projets et
-        Compétences arrivent prochainement.
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="profil.eyebrow">Profil</span></p>
+      <h2 class="section-title" data-i18n="profil.title">À propos</h2>
+      <p class="section-lead" data-i18n="profil.lead">
+        24 ans, diplômé du BTS SIO option SISR et certifié Microsoft Azure Fundamentals
+        (AZ-900). Une alternance comme unique responsable IT d'une start-up, un homelab
+        complet en production simulée et une mission terrain sur du matériel interactif.
+        Je vise un poste de Technicien Systèmes &amp; Réseaux en Île-de-France.
       </p>
+
+      <div class="skills">
+        <div class="skill-group">
+          <p class="skill-head" data-i18n="skills.systems">Systèmes</p>
+          <ul class="tags">
+            <li>Windows Server 2022</li>
+            <li>Active Directory</li>
+            <li>GPO</li>
+            <li>Debian / Ubuntu</li>
+            <li>Proxmox VE</li>
+            <li>VM &amp; conteneurs LXC</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <p class="skill-head" data-i18n="skills.network">Réseau</p>
+          <ul class="tags">
+            <li>Segmentation VLAN</li>
+            <li>Routage inter-VLAN</li>
+            <li>Pare-feu OPNsense</li>
+            <li>Cisco Catalyst 1000</li>
+            <li>VPN (Tailscale)</li>
+            <li>DNS</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <p class="skill-head" data-i18n="skills.ops">Exploitation</p>
+          <ul class="tags">
+            <li>Supervision Zabbix</li>
+            <li>Ticketing GLPI</li>
+            <li>Proxmox Backup Server</li>
+            <li>Nextcloud</li>
+            <li>Entra ID</li>
+            <li>Azure (AZ-900)</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <p class="skill-head" data-i18n="skills.education">Formation</p>
+          <ul class="tags">
+            <li data-i18n="skills.bts">BTS SIO — option SISR (2024–2026)</li>
+            <li data-i18n="skills.az900">Azure Fundamentals AZ-900 (2026)</li>
+            <li data-i18n="skills.langs">Anglais technique (B1/B2)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Expérience professionnelle -->
+    <section id="experience" class="section">
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="xp.eyebrow">Parcours</span></p>
+      <h2 class="section-title" data-i18n="xp.title">Expérience professionnelle</h2>
+
+      <article class="entry">
+        <div class="entry-side">
+          <p class="entry-org">Keemia</p>
+          <p class="entry-period" data-i18n="xp.keemia.period">Août 2026 · Montreuil</p>
+        </div>
+        <div class="entry-main">
+          <h3 data-i18n="xp.keemia.role">Technicien préparation &amp; maintenance de bornes interactives</h3>
+          <ul class="entry-list">
+            <li data-i18n="xp.keemia.b1">Montage complet de bornes interactives : écran tactile, unité centrale, jetonnier, scanner code-barres/QR, imprimante à tickets, routeur.</li>
+            <li data-i18n="xp.keemia.b2">Câblage interne, diagnostic de pannes et remplacement de composants.</li>
+            <li data-i18n="xp.keemia.b3">Inventaire et suivi du matériel — 60 bornes déployées pour le réseau La Foir'Fouille.</li>
+          </ul>
+          <ul class="tags">
+            <li>Montage matériel</li>
+            <li>Câblage</li>
+            <li>Diagnostic de pannes</li>
+            <li>Inventaire</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-side">
+          <p class="entry-org">Kali</p>
+          <p class="entry-period" data-i18n="xp.kali.period">2024–2025 · Paris / Marseille</p>
+        </div>
+        <div class="entry-main">
+          <h3 data-i18n="xp.kali.role">Administrateur Systèmes — alternance, seul responsable IT</h3>
+          <ul class="entry-list">
+            <li data-i18n="xp.kali.b1">Administration Active Directory : création et gestion des utilisateurs, stratégies de sécurité et GPO.</li>
+            <li data-i18n="xp.kali.b2">Support N1/N2 sur postes Windows et serveur Debian.</li>
+            <li data-i18n="xp.kali.b3">Installation et configuration d'un serveur Debian on-premise : Nextcloud, accès distant par VPN Tailscale.</li>
+            <li data-i18n="xp.kali.b4">Gestion complète du DNS et des noms de domaine (Entra ID).</li>
+            <li data-i18n="xp.kali.b5">Création d'un site e-commerce WordPress avec intégration d'une API de paiement.</li>
+          </ul>
+          <ul class="tags">
+            <li>Active Directory</li>
+            <li>Windows / Debian</li>
+            <li>VPN</li>
+            <li>DNS</li>
+            <li>Support N1/N2</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <!-- Projets techniques -->
+    <section id="projets" class="section">
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="proj.eyebrow">Projets</span></p>
+      <h2 class="section-title" data-i18n="proj.title">Projets techniques</h2>
+
+      <article class="project">
+        <div class="project-head">
+          <h3 data-i18n="proj.conseilpro.name">ConseilPro — infrastructure système multi-environnements</h3>
+          <p class="entry-period" data-i18n="proj.conseilpro.period">Projet personnel · 2025–2026 · homelab</p>
+        </div>
+        <p class="project-desc" data-i18n="proj.conseilpro.desc">
+          Simulation d'une infrastructure d'entreprise complète sur homelab, du réseau
+          physique jusqu'à la supervision et aux sauvegardes.
+        </p>
+        <ul class="entry-list">
+          <li data-i18n="proj.conseilpro.b1">Virtualisation sous Proxmox : machines virtuelles et conteneurs LXC, Windows Server 2022 et Linux (Debian / Ubuntu).</li>
+          <li data-i18n="proj.conseilpro.b2">Réseau segmenté multi-VLAN : commutateur physique Cisco Catalyst 1000 et pare-feu OPNsense assurant le routage inter-VLAN.</li>
+          <li data-i18n="proj.conseilpro.b3">Poste Windows 11 joint au domaine, déploiement de stratégies de groupe (GPO).</li>
+          <li data-i18n="proj.conseilpro.b4">Supervision Zabbix, ticketing GLPI, sauvegardes Proxmox Backup Server.</li>
+          <li data-i18n="proj.conseilpro.b5">Documentation des procédures d'exploitation et suivi des anomalies.</li>
+        </ul>
+        <ul class="tags">
+          <li>Proxmox</li>
+          <li>Windows Server 2022</li>
+          <li>VLAN</li>
+          <li>OPNsense</li>
+          <li>Cisco</li>
+          <li>Zabbix</li>
+          <li>GLPI</li>
+          <li>PBS</li>
+        </ul>
+      </article>
     </section>
   </main>
 
   <footer id="contact" class="site-footer">
-    <h2>Discutons de votre infrastructure.</h2>
+    <h2 data-i18n="footer.title">Discutons de votre infrastructure.</h2>
     <div class="footer-grid">
       <div class="footer-col">
-        <p class="footer-head">Contact</p>
+        <p class="footer-head" data-i18n="footer.contact">Contact</p>
         <a href="mailto:tomdaluzeau@gmail.com">tomdaluzeau@gmail.com</a>
         <a href="tel:+33767694404">07 67 69 44 04</a>
       </div>
       <div class="footer-col">
-        <p class="footer-head">Liens</p>
+        <p class="footer-head" data-i18n="footer.links">Liens</p>
         <a href="https://linkedin.com/in/daluzeautom" target="_blank" rel="noopener">LinkedIn ↗</a>
         <a href="https://github.com/tmdlz" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
       <div class="footer-col">
-        <p class="footer-head">Localisation</p>
+        <p class="footer-head" data-i18n="footer.location">Localisation</p>
         <span>Paris · Île-de-France</span>
       </div>
     </div>
