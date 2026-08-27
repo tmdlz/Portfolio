@@ -60,7 +60,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---- Fond animé « Pixel Pulse » (js/background.js) ---- */
+/* ---- Fond animé « Comet Cascade » (js/background.js) ---- */
 #bg-canvas {
   position: fixed;
   inset: 0;

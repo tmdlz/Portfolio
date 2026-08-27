@@ -1,8 +1,8 @@
 // =====================================================================
-// Fond animé « Pixel Pulse »
-// Un mur de cellules type LED. Des anneaux concentriques irradient du
-// centre et rallument les cellules au passage, en orange signal.
-// Réimplémentation de l'effet getdesign.md/backgrounds?fx=pixel-pulse
+// Fond animé « Comet Cascade »
+// Des traînées de comètes tombent depuis le haut-centre, puis s'évasent
+// vers l'extérieur près du sol — comme une fontaine heurtant une vitre.
+// Réimplémentation maison de l'effet getdesign.md/backgrounds?fx=comet-cascade
 // (canvas 2D, sans dépendance).
 // =====================================================================
 (function () {
@@ -14,23 +14,61 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const CONFIG = {
-    cell: 26, // pas de la grille en px — pilote la densité
-    fill: 0.6, // côté de la cellule = fill * cell
-    corner: 3, // rayon des coins des cellules
-    rest: "236, 231, 222", // --text : cellules au repos
-    restAlpha: 0.045,
-    pulse: "232, 98, 42", // --signal : crête de l'onde
-    pulseAlpha: 0.32,
-    ring: 100, // épaisseur de l'anneau lumineux en px
-    speed: 108, // vitesse de propagation en px/s
-    gap: 6.5, // secondes entre deux anneaux
+    count: 22, // nombre de comètes (« Trails »)
+    canvasRGB: "20, 19, 15", // --canvas, pour le voile de traînée
+    trailFade: 0.042, // opacité du voile par frame → longueur des traînées
+    colors: [
+      // dégradé chaud : orange signal → ambre → braise
+      [232, 98, 42],
+      [242, 149, 78],
+      [200, 69, 31],
+    ],
+    spawnSpread: 0.16, // largeur de la source (fraction de la largeur)
+    baseVy: 180, // vitesse verticale initiale (px/s)
+    gravity: 820, // accélération vers le bas (px/s²)
+    floor: 0.6, // début de l'évasement (fraction de la hauteur)
+    bank: 950, // accélération horizontale près du sol (px/s²)
+    headSize: 1.2, // rayon de base de la tête
+    headAlpha: 0.24, // opacité de la tête
+    trailAlpha: 0.26, // opacité en pointe de traînée
+    maxSpeed: 1600,
   };
 
   let vw = 0;
   let vh = 0;
-  let cells = []; // positions + distance au centre, recalculées au resize
+  let comets = [];
   let rafId = 0;
-  let t0 = 0;
+  let last = 0;
+
+  function lerpColor(t) {
+    const c = CONFIG.colors;
+    const seg = t * (c.length - 1);
+    const i = Math.min(Math.floor(seg), c.length - 2);
+    const f = seg - i;
+    const a = c[i];
+    const b = c[i + 1];
+    return (
+      Math.round(a[0] + (b[0] - a[0]) * f) +
+      "," +
+      Math.round(a[1] + (b[1] - a[1]) * f) +
+      "," +
+      Math.round(a[2] + (b[2] - a[2]) * f)
+    );
+  }
+
+  function spawn(c, initial) {
+    const side = Math.random() < 0.5 ? -1 : 1;
+    c.side = side;
+    c.x = vw / 2 + (Math.random() - 0.5) * vw * CONFIG.spawnSpread;
+    c.y = initial
+      ? Math.random() * vh // premier tour : comètes réparties sur toute la hauteur
+      : -vh * (0.05 + Math.random() * 0.4);
+    c.vx = side * (8 + Math.random() * 26);
+    c.vy = CONFIG.baseVy + Math.random() * 90;
+    c.color = lerpColor(Math.random());
+    c.len = 0.1 + Math.random() * 0.16; // longueur du segment de tête dessiné
+    c.w = 0.8 + Math.random() * 1.6; // épaisseur
+  }
 
   function build() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -41,72 +79,82 @@
     canvas.width = Math.round(vw * dpr);
     canvas.height = Math.round(vh * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = "rgb(" + CONFIG.canvasRGB + ")";
+    ctx.fillRect(0, 0, vw, vh);
 
-    const cols = Math.ceil(vw / CONFIG.cell) + 1;
-    const rows = Math.ceil(vh / CONFIG.cell) + 1;
-    const originX = vw / 2;
-    const originY = vh * 0.4; // légèrement au-dessus du centre, vers le hero
-    const edge = Math.hypot(
-      Math.max(originX, vw - originX),
-      Math.max(originY, vh - originY)
-    );
-
-    cells = [];
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        const x = col * CONFIG.cell;
-        const y = row * CONFIG.cell;
-        const d = Math.hypot(
-          x + CONFIG.cell / 2 - originX,
-          y + CONFIG.cell / 2 - originY
-        );
-        cells.push({ x: x, y: y, d: d, dim: 1 - (d / edge) * 0.65 });
+    if (comets.length !== CONFIG.count) {
+      comets = [];
+      for (let i = 0; i < CONFIG.count; i++) {
+        const c = {};
+        spawn(c, true);
+        comets.push(c);
       }
     }
   }
 
-  function cellPath(x, y, s, r) {
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.arcTo(x + s, y, x + s, y + s, r);
-    ctx.arcTo(x + s, y + s, x, y + s, r);
-    ctx.arcTo(x, y + s, x, y, r);
-    ctx.arcTo(x, y, x + s, y, r);
-    ctx.closePath();
+  function step(dt) {
+    const floorY = vh * CONFIG.floor;
+
+    for (let i = 0; i < comets.length; i++) {
+      const c = comets[i];
+      c.vy += CONFIG.gravity * dt;
+
+      if (c.y > floorY) {
+        const p = Math.min((c.y - floorY) / (vh - floorY), 1);
+        c.vx += c.side * CONFIG.bank * dt * p; // s'évase vers l'extérieur
+        c.vy -= c.vy * 2.4 * dt; // la chute s'aplatit
+      }
+
+      const sp = Math.hypot(c.vx, c.vy);
+      if (sp > CONFIG.maxSpeed) {
+        c.vx *= CONFIG.maxSpeed / sp;
+        c.vy *= CONFIG.maxSpeed / sp;
+      }
+
+      c.x += c.vx * dt;
+      c.y += c.vy * dt;
+
+      if (c.y > vh * 1.05 || c.x < -60 || c.x > vw + 60) spawn(c, false);
+    }
   }
 
-  function render(elapsed) {
-    ctx.clearRect(0, 0, vw, vh);
+  function draw() {
+    // voile léger pour estomper les positions précédentes → traînées
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = "rgba(" + CONFIG.canvasRGB + "," + CONFIG.trailFade + ")";
+    ctx.fillRect(0, 0, vw, vh);
 
-    const s = CONFIG.cell * CONFIG.fill;
-    const pad = (CONFIG.cell - s) / 2;
-    const front = CONFIG.speed * elapsed; // rayon courant du front d'onde
-    const wrap = CONFIG.speed * CONFIG.gap; // espacement des anneaux en px
+    // têtes + segment de mouvement, en éclaircissement additif
+    ctx.globalCompositeOperation = "lighter";
+    ctx.lineCap = "round";
+    for (let i = 0; i < comets.length; i++) {
+      const c = comets[i];
+      const tx = c.x - c.vx * c.len;
+      const ty = c.y - c.vy * c.len;
 
-    for (let i = 0; i < cells.length; i++) {
-      const c = cells[i];
+      const grad = ctx.createLinearGradient(tx, ty, c.x, c.y);
+      grad.addColorStop(0, "rgba(" + c.color + ",0)");
+      grad.addColorStop(1, "rgba(" + c.color + "," + CONFIG.trailAlpha + ")");
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = c.w;
+      ctx.beginPath();
+      ctx.moveTo(tx, ty);
+      ctx.lineTo(c.x, c.y);
+      ctx.stroke();
 
-      cellPath(c.x + pad, c.y + pad, s, CONFIG.corner);
-      ctx.fillStyle = "rgba(" + CONFIG.rest + "," + CONFIG.restAlpha * c.dim + ")";
+      ctx.fillStyle = "rgba(" + c.color + "," + CONFIG.headAlpha + ")";
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, CONFIG.headSize * c.w, 0, Math.PI * 2);
       ctx.fill();
-
-      const behind = front - c.d; // l'onde a-t-elle dépassé cette cellule ?
-      if (behind > 0) {
-        const inRing = behind % wrap;
-        if (inRing < CONFIG.ring) {
-          const glow = Math.sin((inRing / CONFIG.ring) * Math.PI); // 0 → 1 → 0
-          cellPath(c.x + pad, c.y + pad, s, CONFIG.corner);
-          ctx.fillStyle =
-            "rgba(" + CONFIG.pulse + "," + glow * CONFIG.pulseAlpha * c.dim + ")";
-          ctx.fill();
-        }
-      }
     }
+    ctx.globalCompositeOperation = "source-over";
   }
 
   function loop(now) {
-    if (!t0) t0 = now;
-    render((now - t0) / 1000);
+    const dt = last ? Math.min((now - last) / 1000, 0.05) : 0.016;
+    last = now;
+    step(dt);
+    draw();
     rafId = requestAnimationFrame(loop);
   }
 
@@ -117,26 +165,20 @@
 
   function start() {
     if (rafId) return;
-    t0 = 0;
+    last = 0;
     rafId = requestAnimationFrame(loop);
   }
 
   function init() {
     build();
-    if (reduceMotion.matches) {
-      render(0); // image fixe : la grille seule, sans onde
-    } else {
-      start();
-    }
+    if (reduceMotion.matches) return; // canvas rempli de --canvas, sans animation
+    start();
   }
 
   let resizeTimer = 0;
   window.addEventListener("resize", function () {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () {
-      build();
-      if (reduceMotion.matches) render(0);
-    }, 150);
+    resizeTimer = setTimeout(build, 150);
   });
 
   // Suspendre quand l'onglet n'est pas visible.

@@ -26,13 +26,13 @@ Deux gestes portent l'identité :
    `position: sticky`.
 2. **Le point d'eyebrow.** Chaque libellé de section est précédé d'un petit disque orange
    de 6px. C'est l'élément d'identité à ne jamais retirer.
-3. **Le fond animé « Pixel Pulse ».** Un mur de cellules type LED, très discret, traversé
-   par des anneaux concentriques orange qui irradient du centre. Motion lente et calme,
-   jamais au premier plan (voir §4).
+3. **Le fond animé « Comet Cascade ».** Des traînées de comètes chaudes tombent depuis le
+   haut-centre puis s'évasent vers l'extérieur près du sol, comme une fontaine sur une
+   vitre. Motion lente, faible opacité, jamais au premier plan (voir §4).
 
 Le reste est délibérément sobre : rayons courts (8–16px), pas de dégradés, pas de portraits
 circulaires ni d'arcs décoratifs entre eux (ce motif Mastercard est abandonné dans cette
-variante — le fond « Pixel Pulse » est une couche à part, jamais un ornement de premier
+variante — le fond « Comet Cascade » est une couche à part, jamais un ornement de premier
 plan), ombres présentes mais diffuses.
 
 **Caractéristiques clés**
@@ -161,16 +161,19 @@ icône SVG 16×16 en `fill: currentColor`. Combiné à `.btn-secondary` pour le 
 projets. Le libellé traduit va dans un `<span data-i18n>` **à côté** du SVG (jamais de
 `data-i18n` sur un élément qui contient le SVG — `textContent` l'effacerait).
 
-### Fond animé « Pixel Pulse » (`#bg-canvas` + `js/background.js`)
+### Fond animé « Comet Cascade » (`#bg-canvas` + `js/background.js`)
 - `<canvas>` en `position: fixed` couvrant le viewport, `z-index: 0`, `pointer-events: none`
 - Le contenu passe au-dessus : `main` et `.site-footer` en `position: relative; z-index: 1`,
   la nav en `z-index: 10`
-- Canvas 2D, sans dépendance. Grille de cellules arrondies (pas `26px`, remplissage `0.6`,
-  coins `3px`) en `--text` à `~4,5 %` d'opacité ; anneaux concentriques en `--signal`
-  (crête à `~32 %`) qui partent du point `(50 % ; 40 %)` et se répètent toutes les 6,5 s
-- Atténuation vers les bords, `devicePixelRatio` plafonné à 2
-- Se met en pause quand l'onglet est masqué ; respecte `prefers-reduced-motion` (grille
-  fixe, sans onde)
+- Canvas 2D, sans dépendance. Le canvas est **opaque** (rempli de `--canvas`) : chaque
+  frame, un voile `rgba(--canvas, ~4 %)` estompe les positions précédentes → les traînées.
+- ~22 comètes qui naissent près du haut-centre, tombent (gravité), puis s'évasent vers
+  l'extérieur sous `60 %` de la hauteur. Têtes + segments dessinés en `globalCompositeOperation
+  = "lighter"`, dégradé chaud (orange signal → ambre → braise), opacité tête/traînée `~25 %`.
+- `devicePixelRatio` plafonné à 2 ; pause quand l'onglet est masqué ; respecte
+  `prefers-reduced-motion` (canvas rempli de `--canvas`, aucune animation)
+- Tous les réglages sont dans l'objet `CONFIG` en tête de `js/background.js`
+  (`count`, `trailFade`, `colors`, `baseVy`, `gravity`, `floor`, `bank`…)
 - Reste **un fond** : ne jamais monter l'opacité au point de gêner la lecture. Les surfaces
   `--lifted` / `--deep` (cartes, footer) le masquent localement, c'est voulu.
 
@@ -345,8 +348,8 @@ généraliser aux cartes : il perdrait sa valeur de signal et coûte cher en ren
 - Rester sur l'échelle de rayons 8 / 14 / 16px (+ 50% pour le point)
 - Trois tons de surface : `deep` → `canvas` → `lifted`
 - Focus clavier visible : `:focus-visible` → liseré `--signal` 2px, `outline-offset: 2px`
-- Respecter `prefers-reduced-motion` (coupe `scroll-behavior`, les transitions et l'onde du fond)
-- Garder le fond « Pixel Pulse » sous le contenu (`z-index`) et à faible opacité
+- Respecter `prefers-reduced-motion` (coupe `scroll-behavior`, les transitions et l'animation du fond)
+- Garder le fond « Comet Cascade » sous le contenu (`z-index`) et à faible opacité
 
 ### À éviter
 - Pas de noir pur `#000` ni de blanc pur `#fff` en aplat large
